@@ -721,7 +721,7 @@ export default function Home() {
     {/* Next Reviews Carousel - Rotating Slide */}
     <div 
       ref={carouselRef}
-      className="next-reviews-carousel w-full p-0 relative z-40 mb-[20px]"
+      className="next-reviews-carousel w-full p-0 relative z-40"
       onMouseEnter={() => setCarouselDirection('paused')}
       onMouseLeave={() => setCarouselDirection('left')}
       onMouseMove={(e) => {
@@ -741,13 +741,13 @@ export default function Home() {
       }}
       style={{ 
         marginTop: '20px', 
-        marginBottom: '0px', 
+        marginBottom: '20px', 
         paddingTop: '40px', 
         paddingBottom: '40px',
         paddingLeft: '20px',
         paddingRight: '20px',
         backgroundColor: '#ffffff',
-        boxShadow: '0 -20px 0 0 #ffffff'
+        boxShadow: '0 -20px 0 0 #ffffff, 0 20px 0 0 #ffffff'
       }}
     >
       <div className="carousel-container" style={{ 
