@@ -792,6 +792,8 @@ export default function Home() {
               style={{ 
                 minWidth: '677px', 
                 maxWidth: '677px',
+                marginTop: '5px',
+                marginBottom: '5px',
                 marginLeft: '20px',
                 marginRight: '20px',
                 padding: '30px 35px',
@@ -840,6 +842,8 @@ export default function Home() {
               style={{ 
                 minWidth: '677px', 
                 maxWidth: '677px',
+                marginTop: '5px',
+                marginBottom: '5px',
                 marginLeft: '20px',
                 marginRight: '20px',
                 padding: '30px 35px',
