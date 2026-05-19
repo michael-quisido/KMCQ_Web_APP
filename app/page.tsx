@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import TypewriterText from "@/components/TypewriterText";
 import { FaLinkedin, FaFacebook, FaInstagram, FaYoutube, FaSearch, FaBars, FaTimes } from "react-icons/fa";
-import { SiGithub } from "react-icons/si";
+import { SiGithub, SiBluesky } from "react-icons/si";
 import { MdSettings, MdStorage, MdEmail } from "react-icons/md";
 import { SiWordpress } from "react-icons/si";
 import { useState, useEffect, useRef } from "react";
@@ -1090,6 +1090,7 @@ export default function Home() {
           <Link href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="footer-link"><FaLinkedin size={24} color="#9d9d9d" /></Link>
           <Link href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="footer-link"><FaFacebook size={24} color="#9d9d9d" /></Link>
           <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="footer-link"><FaInstagram size={24} color="#9d9d9d" /></Link>
+          <Link href="https://bsky.app" target="_blank" rel="noopener noreferrer" className="footer-link"><SiBluesky size={24} color="#9d9d9d" /></Link>
           <Link href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="footer-link"><FaYoutube size={24} color="#9d9d9d" /></Link>
         </div>
       </div>
