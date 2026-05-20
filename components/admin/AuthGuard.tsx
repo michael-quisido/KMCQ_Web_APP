@@ -7,15 +7,15 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
   const [authed, setAuthed] = useState<boolean | null>(null);
   const router = useRouter();
   const pathname = usePathname();
-  const isLoginPage = pathname === "/administrator/login";
+  const isLoginPage = pathname === "/administrator" || pathname === "/administrator/login";
 
   useEffect(() => {
     fetch("/api/auth/me")
       .then((r) => {
         if (r.ok) setAuthed(true);
-        else { setAuthed(false); if (!isLoginPage) router.push("/administrator/login"); }
+        else { setAuthed(false); if (!isLoginPage) router.push("/administrator"); }
       })
-      .catch(() => { setAuthed(false); if (!isLoginPage) router.push("/administrator/login"); });
+      .catch(() => { setAuthed(false); if (!isLoginPage) router.push("/administrator"); });
   }, [router, isLoginPage]);
 
   if (authed === null && isLoginPage) return <>{children}</>;

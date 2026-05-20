@@ -1,12 +1,23 @@
+"use client";
+
+import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import "../globals.css";
 import AuthGuard from "@/components/admin/AuthGuard";
 import AdminSidebar from "@/components/admin/Sidebar";
 
-export const metadata = {
-  title: "KMCQ Admin",
-};
-
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const isLoginPage = pathname === "/administrator" || pathname === "/administrator/login";
+
+  useEffect(() => {
+    document.title = "KMCQ Admin";
+  }, []);
+
+  if (isLoginPage) {
+    return <AuthGuard>{children}</AuthGuard>;
+  }
+
   return (
     <AuthGuard>
       <div style={{ display: "flex", minHeight: "100vh", backgroundColor: "#f5f5f5" }}>

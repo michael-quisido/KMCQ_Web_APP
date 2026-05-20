@@ -4,6 +4,7 @@ import { Geist, Geist_Mono, Ubuntu } from "next/font/google";
 import "./globals.css";
 import NetworkCanvas from "@/components/NetworkCanvas";
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,6 +27,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
+  const isAdmin = pathname?.startsWith("/administrator");
+
   useEffect(() => {
     document.title = "KMCQ GmbH, headquartered in Cebu, Philippines. One of the trusted VPS, Data Web Hosting, WordPress Hosting, Email Hosting and etc.";
   }, []);
@@ -33,7 +37,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} ${ubuntu.variable} antialiased`}>
-        <NetworkCanvas />
+        {!isAdmin && <NetworkCanvas />}
         {children}
       </body>
     </html>
