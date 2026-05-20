@@ -1,4 +1,5 @@
 import PageLayout from "@/components/PageLayout";
+import CustomContentWrapper from "@/components/CustomContentWrapper";
 import Image from "next/image";
 
 export default function Page() {
@@ -41,6 +42,7 @@ export default function Page() {
               Our Community
             </h1>
           </div>
+          <CustomContentWrapper pageSlug="community" />
         </div>
       </div>
     </PageLayout>
