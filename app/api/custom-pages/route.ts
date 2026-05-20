@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAuthFromCookies } from "@/lib/auth";
 import { query } from "@/lib/db";
+import type { ResultSetHeader } from "mysql2/promise";
 
 export async function GET() {
   const rows = await query("SELECT id, slug, title, created_at, updated_at FROM custom_pages ORDER BY id ASC");
@@ -15,10 +16,10 @@ export async function POST(req: NextRequest) {
   if (!slug || !title) return NextResponse.json({ error: "Slug and title required" }, { status: 400 });
 
   try {
-    const result = await query("INSERT INTO custom_pages (slug, title, content) VALUES (?, ?, ?)", [slug, title, content || ""]) as any;
+    const result = await query("INSERT INTO custom_pages (slug, title, content) VALUES (?, ?, ?)", [slug, title, content || ""]) as ResultSetHeader;
     return NextResponse.json({ id: result.insertId, slug, title });
-  } catch (err: any) {
-    if (err.code === "ER_DUP_ENTRY") return NextResponse.json({ error: "Slug already exists" }, { status: 409 });
+  } catch (err: unknown) {
+    if ((err as Record<string, unknown>).code === "ER_DUP_ENTRY") return NextResponse.json({ error: "Slug already exists" }, { status: 409 });
     throw err;
   }
 }

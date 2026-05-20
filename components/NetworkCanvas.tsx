@@ -2,6 +2,11 @@
 
 import { useEffect, useRef } from 'react';
 
+interface CanvasNode {
+  x: number; y: number; baseRadius: number; radius: number;
+  vx: number; vy: number; color: string;
+}
+
 export default function NetworkCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -32,70 +37,57 @@ export default function NetworkCanvas() {
 
     resizeCanvas();
 
-    const nodes: any[] = [];
+    const nodes: CanvasNode[] = [];
     const numNodes = 90;
     let mouseX: number | null = null;
     let mouseY: number | null = null;
     const attractionRadius = 190;
     const attractionStrength = 0.04;
 
-    class Node {
-      x: number;
-      y: number;
-      baseRadius: number;
-      radius: number;
-      vx: number;
-      vy: number;
-      color: string;
-
-      constructor(x: number, y: number) {
-        this.x = x;
-        this.y = y;
-        this.baseRadius = Math.random() * 2 + 1;
-        this.radius = this.baseRadius;
-        this.vx = (Math.random() - 0.5) * 1;
-        this.vy = (Math.random() - 0.5) * 1;
-        this.color = `rgba(100, 100, 100, ${Math.random() * 0.7 + 0.3})`;
-      }
-
-      draw() {
-        if (!ctx) return;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = this.color;
-        ctx.fill();
-        ctx.closePath();
-      }
-
-      update() {
-        this.x += this.vx;
-        this.y += this.vy;
-
-        if (this.x + this.radius > canvasWidth || this.x - this.radius < 0) this.vx *= -1;
-        if (this.y + this.radius > canvasHeight || this.y - this.radius < 0) this.vy *= -1;
-
-        if (mouseX !== null && mouseY !== null) {
-          const dx = mouseX - this.x;
-          const dy = mouseY - this.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-
-          if (distance < attractionRadius) {
-            const angle = Math.atan2(dy, dx);
-            this.x += Math.cos(angle) * attractionStrength * (attractionRadius - distance);
-            this.y += Math.sin(angle) * attractionStrength * (attractionRadius - distance);
-            this.radius = this.baseRadius * 1.2;
-          } else {
-            this.radius = this.baseRadius;
-          }
-        } else {
-          this.radius = this.baseRadius;
-        }
-
-        this.draw();
-      }
+    function createNode(x: number, y: number): CanvasNode {
+      return {
+        x, y,
+        baseRadius: Math.random() * 2 + 1,
+        radius: 0,
+        vx: (Math.random() - 0.5) * 1,
+        vy: (Math.random() - 0.5) * 1,
+        color: `rgba(100, 100, 100, ${Math.random() * 0.7 + 0.3})`,
+      };
     }
 
-    function connectNodes(nodes: Node[]) {
+    function updateNode(node: CanvasNode) {
+      node.x += node.vx;
+      node.y += node.vy;
+
+      if (node.x + node.radius > canvasWidth || node.x - node.radius < 0) node.vx *= -1;
+      if (node.y + node.radius > canvasHeight || node.y - node.radius < 0) node.vy *= -1;
+
+      if (mouseX !== null && mouseY !== null) {
+        const dx = mouseX - node.x;
+        const dy = mouseY - node.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < attractionRadius) {
+          const angle = Math.atan2(dy, dx);
+          node.x += Math.cos(angle) * attractionStrength * (attractionRadius - distance);
+          node.y += Math.sin(angle) * attractionStrength * (attractionRadius - distance);
+          node.radius = node.baseRadius * 1.2;
+        } else {
+          node.radius = node.baseRadius;
+        }
+      } else {
+        node.radius = node.baseRadius;
+      }
+
+      if (!ctx) return;
+      ctx.beginPath();
+      ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+      ctx.fillStyle = node.color;
+      ctx.fill();
+      ctx.closePath();
+    }
+
+    function connectNodes() {
       if (!ctx) return;
       for (let i = 0; i < nodes.length; i++) {
         for (let j = i + 1; j < nodes.length; j++) {
@@ -120,9 +112,9 @@ export default function NetworkCanvas() {
     function init() {
       nodes.length = 0;
       for (let i = 0; i < numNodes; i++) {
-        const x = Math.random() * canvasWidth;
-        const y = Math.random() * canvasHeight;
-        nodes.push(new Node(x, y));
+        const node = createNode(Math.random() * canvasWidth, Math.random() * canvasHeight);
+        node.radius = node.baseRadius;
+        nodes.push(node);
       }
     }
 
@@ -132,10 +124,10 @@ export default function NetworkCanvas() {
       ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
       for (let i = 0; i < nodes.length; i++) {
-        nodes[i].update();
+        updateNode(nodes[i]);
       }
 
-      connectNodes(nodes);
+      connectNodes();
     }
 
     init();

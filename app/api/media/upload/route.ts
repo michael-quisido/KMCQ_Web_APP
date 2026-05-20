@@ -4,6 +4,7 @@ import { query } from "@/lib/db";
 import { writeFile, mkdir } from "fs/promises";
 import path from "path";
 import { v4 as uuidv4 } from "uuid";
+import type { ResultSetHeader } from "mysql2/promise";
 
 export async function POST(req: NextRequest) {
   const user = await getAuthFromCookies();
@@ -27,7 +28,7 @@ export async function POST(req: NextRequest) {
   const rows = await query(
     "INSERT INTO media_files (filename, original_name, path, folder_id, mime_type, size) VALUES (?, ?, ?, ?, ?, ?)",
     [filename, file.name, filePath, folderId || null, file.type, file.size]
-  ) as any;
+  ) as ResultSetHeader;
 
   return NextResponse.json({ id: rows.insertId, filename, path: filePath, original_name: file.name });
 }

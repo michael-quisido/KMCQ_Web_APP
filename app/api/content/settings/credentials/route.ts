@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAuthFromCookies, hashPassword, verifyPassword } from "@/lib/auth";
 import { query } from "@/lib/db";
+import type { RowDataPacket } from "mysql2/promise";
 
 export async function PUT(req: NextRequest) {
   const user = await getAuthFromCookies();
@@ -8,14 +9,14 @@ export async function PUT(req: NextRequest) {
 
   const { currentPassword, newUsername, newPassword, newEmail } = await req.json();
 
-  const admins = await query("SELECT id, password_hash FROM admins WHERE id = ?", [user.id]) as any[];
+  const admins = await query("SELECT id, password_hash FROM admins WHERE id = ?", [user.id]) as RowDataPacket[];
   if (admins.length === 0) return NextResponse.json({ error: "Admin not found" }, { status: 404 });
 
   const valid = await verifyPassword(currentPassword, admins[0].password_hash);
   if (!valid) return NextResponse.json({ error: "Current password is incorrect" }, { status: 401 });
 
   const updates: string[] = [];
-  const params: any[] = [];
+  const params: (string | number)[] = [];
 
   if (newUsername) { updates.push("username = ?"); params.push(newUsername); }
   if (newPassword) { updates.push("password_hash = ?"); params.push(await hashPassword(newPassword)); }

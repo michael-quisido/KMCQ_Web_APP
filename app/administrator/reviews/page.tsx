@@ -15,7 +15,7 @@ export default function ReviewsEditor() {
     fetch("/api/content/reviews").then(r => r.json()).then(setReviews);
   }, []);
 
-  function updateReview(i: number, field: keyof Review, value: any) {
+  function updateReview(i: number, field: keyof Review, value: string | number) {
     const updated = [...reviews];
     updated[i] = { ...updated[i], [field]: value };
     setReviews(updated);

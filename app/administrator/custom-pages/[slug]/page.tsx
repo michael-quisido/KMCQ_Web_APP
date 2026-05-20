@@ -15,8 +15,8 @@ export default function CustomPageEditor() {
   const [pageId, setPageId] = useState<number | null>(null);
 
   useEffect(() => {
-    fetch("/api/custom-pages").then(r => r.json()).then((pages: any[]) => {
-      const page = pages.find((p: any) => p.slug === slug);
+    fetch("/api/custom-pages").then(r => r.json()).then((pages: { id: number; slug: string; title: string }[]) => {
+      const page = pages.find((p) => p.slug === slug);
       if (page) {
         setPageId(page.id);
         setTitle(page.title);

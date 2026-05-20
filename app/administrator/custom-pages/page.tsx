@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function CustomPagesList() {
-  const [pages, setPages] = useState<any[]>([]);
+  const [pages, setPages] = useState<{ id: number; slug: string; title: string; created_at: string }[]>([]);
   const [newSlug, setNewSlug] = useState("");
   const [newTitle, setNewTitle] = useState("");
   const router = useRouter();

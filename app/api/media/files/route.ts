@@ -8,7 +8,7 @@ export async function GET(req: NextRequest) {
 
   const folderId = req.nextUrl.searchParams.get("folder_id");
   let sql = "SELECT * FROM media_files";
-  const params: any[] = [];
+  const params: (string | number)[] = [];
   if (folderId) { sql += " WHERE folder_id = ?"; params.push(folderId); }
   sql += " ORDER BY created_at DESC";
 

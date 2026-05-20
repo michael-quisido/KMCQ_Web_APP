@@ -12,7 +12,7 @@ interface MediaGridProps {
 
 export default function MediaGrid({ onSelect }: MediaGridProps) {
   const [files, setFiles] = useState<MediaFile[]>([]);
-  const [folders, setFolders] = useState<any[]>([]);
+  const [folders, setFolders] = useState<{ id: number; name: string; parent_id: number | null }[]>([]);
   const [currentFolder, setCurrentFolder] = useState<number | null>(null);
   const [renaming, setRenaming] = useState<number | null>(null);
   const [newName, setNewName] = useState("");
@@ -28,7 +28,22 @@ export default function MediaGrid({ onSelect }: MediaGridProps) {
     setFolders(await foldersRes.json());
   }
 
-  useEffect(() => { loadFiles(); }, [currentFolder]);
+  useEffect(() => {
+    let cancelled = false;
+    async function load() {
+      const params = currentFolder ? `?folder_id=${currentFolder}` : "";
+      const [filesRes, foldersRes] = await Promise.all([
+        fetch(`/api/media/files${params}`),
+        fetch("/api/media/folders"),
+      ]);
+      if (!cancelled) {
+        setFiles(await filesRes.json());
+        setFolders(await foldersRes.json());
+      }
+    }
+    load();
+    return () => { cancelled = true; };
+  }, [currentFolder]);
 
   async function handleDelete(id: number) {
     if (!confirm("Delete this file?")) return;

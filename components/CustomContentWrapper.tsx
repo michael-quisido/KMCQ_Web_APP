@@ -7,14 +7,14 @@ interface CustomContentWrapperProps {
 }
 
 export default function CustomContentWrapper({ pageSlug }: CustomContentWrapperProps) {
-  const [content, setContent] = useState<any>(null);
+  const [content, setContent] = useState<{ content: string } | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch("/api/custom-pages")
       .then(r => r.json())
-      .then((pages: any[]) => {
-        const page = pages.find((p: any) => p.slug === pageSlug);
+      .then((pages: { id: number; slug: string }[]) => {
+        const page = pages.find((p) => p.slug === pageSlug);
         if (page) {
           fetch(`/api/custom-pages/${page.id}`)
             .then(r => r.json())

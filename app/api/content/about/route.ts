@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAuthFromCookies } from "@/lib/auth";
 import { query } from "@/lib/db";
+import type { RowDataPacket } from "mysql2/promise";
 
 export async function GET() {
-  const rows = await query("SELECT * FROM about_content ORDER BY id ASC") as any[];
+  const rows = await query("SELECT * FROM about_content ORDER BY id ASC") as RowDataPacket[];
   return NextResponse.json(rows);
 }
 

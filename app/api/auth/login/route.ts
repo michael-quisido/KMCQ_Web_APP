@@ -2,13 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { signToken, verifyPassword } from "@/lib/auth";
 import { query } from "@/lib/db";
 import { AUTH_COOKIE_NAME } from "@/lib/constants";
+import type { RowDataPacket } from "mysql2/promise";
 
 export async function POST(req: NextRequest) {
   try {
     const { email, username, password } = await req.json();
     if (!email || !username || !password) return NextResponse.json({ error: "All fields required" }, { status: 400 });
 
-    const users = await query("SELECT id, email, username, password_hash FROM admins WHERE email = ? AND username = ?", [email, username]) as any[];
+    const users = await query("SELECT id, email, username, password_hash FROM admins WHERE email = ? AND username = ?", [email, username]) as RowDataPacket[];
     if (users.length === 0) return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
 
     const admin = users[0];

@@ -1,8 +1,7 @@
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
 import { JWT_SECRET, AUTH_COOKIE_NAME } from "./constants";
-import { query } from "./db";
 
 export async function hashPassword(password: string): Promise<string> {
   return bcrypt.hash(password, 10);
@@ -18,7 +17,8 @@ export function signToken(payload: { id: number; email: string; username: string
 
 export function verifyToken(token: string): { id: number; email: string; username: string } | null {
   try {
-    return jwt.verify(token, JWT_SECRET) as any;
+    const decoded = jwt.verify(token, JWT_SECRET);
+    return decoded as JwtPayload & { id: number; email: string; username: string };
   } catch {
     return null;
   }

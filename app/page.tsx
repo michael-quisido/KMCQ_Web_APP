@@ -821,7 +821,7 @@ export default function Home() {
                   <span style={{ color: '#FFD700', fontSize: '24px', lineHeight: '1' }}>★★★★★</span>
                 </div>
               </div>
-              <p style={{ color: '#555555', fontSize: '15px', lineHeight: '1.6', marginBottom: '15px', marginTop: '20px', fontStyle: 'italic' }}>"{review.text}"</p>
+              <p style={{ color: '#555555', fontSize: '15px', lineHeight: '1.6', marginBottom: '15px', marginTop: '20px', fontStyle: 'italic' }}>&ldquo;{review.text}&rdquo;</p>
               <div style={{ borderTop: '1px solid #eee', paddingTop: '12px' }}>
                 <span style={{ color: '#040f2d', fontSize: '14px', fontWeight: 'bold', display: 'block' }}>{review.role}</span>
                 <span style={{ color: '#040f2d', fontSize: '13px', fontWeight: 'bold' }}>{review.industry}</span>
@@ -871,7 +871,7 @@ export default function Home() {
                   <span style={{ color: '#FFD700', fontSize: '24px', lineHeight: '1' }}>★★★★★</span>
                 </div>
               </div>
-              <p style={{ color: '#555555', fontSize: '15px', lineHeight: '1.6', marginBottom: '15px', marginTop: '20px', fontStyle: 'italic' }}>"{review.text}"</p>
+              <p style={{ color: '#555555', fontSize: '15px', lineHeight: '1.6', marginBottom: '15px', marginTop: '20px', fontStyle: 'italic' }}>&ldquo;{review.text}&rdquo;</p>
               <div style={{ borderTop: '1px solid #eee', paddingTop: '12px' }}>
                 <span style={{ color: '#040f2d', fontSize: '14px', fontWeight: 'bold', display: 'block' }}>{review.role}</span>
                 <span style={{ color: '#040f2d', fontSize: '13px', fontWeight: 'bold' }}>{review.industry}</span>

@@ -61,7 +61,7 @@ function CredentialsForm() {
 }
 
 function SocialLinksForm() {
-  const [links, setLinks] = useState<any[]>([]);
+  const [links, setLinks] = useState<{ platform: string; url: string; icon: string }[]>([]);
   const [message, setMessage] = useState("");
   const [saving, setSaving] = useState(false);
 

@@ -6,6 +6,7 @@ import { FaLinkedin, FaFacebook, FaInstagram, FaYoutube, FaSearch, FaBars, FaTim
 import { SiGithub, SiBluesky } from "react-icons/si";
 import { useState } from "react";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function PageLayout({ children, title }: { children: React.ReactNode; title?: string }) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);

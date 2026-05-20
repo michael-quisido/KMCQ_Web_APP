@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAuthFromCookies } from "@/lib/auth";
 import { query } from "@/lib/db";
+import type { RowDataPacket } from "mysql2/promise";
 
 export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const user = await getAuthFromCookies();
@@ -24,7 +25,7 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const rows = await query("SELECT * FROM custom_pages WHERE id = ?", [id]) as any[];
+  const rows = await query("SELECT * FROM custom_pages WHERE id = ?", [id]) as RowDataPacket[];
   if (rows.length === 0) return NextResponse.json({ error: "Not found" }, { status: 404 });
   return NextResponse.json(rows[0]);
 }

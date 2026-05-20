@@ -3,6 +3,7 @@ import { getAuthFromCookies } from "@/lib/auth";
 import { query } from "@/lib/db";
 import { rename } from "fs/promises";
 import path from "path";
+import type { RowDataPacket } from "mysql2/promise";
 
 export async function PUT(req: NextRequest) {
   const user = await getAuthFromCookies();
@@ -11,7 +12,7 @@ export async function PUT(req: NextRequest) {
   const { id, newFilename } = await req.json();
   if (!id || !newFilename) return NextResponse.json({ error: "id and newFilename required" }, { status: 400 });
 
-  const files = await query("SELECT * FROM media_files WHERE id = ?", [id]) as any[];
+  const files = await query("SELECT * FROM media_files WHERE id = ?", [id]) as RowDataPacket[];
   if (files.length === 0) return NextResponse.json({ error: "File not found" }, { status: 404 });
 
   const file = files[0];

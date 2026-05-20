@@ -4,7 +4,7 @@ import ImageUpload from "@/components/admin/ImageUpload";
 import MediaGrid from "@/components/admin/MediaGrid";
 
 export default function MediaPage() {
-  function handleUploaded(url: string) {
+  function handleUploaded() {
     window.location.reload();
   }
 
