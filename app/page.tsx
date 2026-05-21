@@ -5,7 +5,7 @@ import Link from "next/link";
 import TypewriterText from "@/components/TypewriterText";
 import { FaLinkedin, FaFacebook, FaInstagram, FaYoutube, FaSearch, FaBars, FaTimes } from "react-icons/fa";
 import { SiGithub, SiBluesky, SiWordpress, SiJoomla, SiDrupal } from "react-icons/si";
-import { MdSettings, MdStorage, MdEmail, MdDns, MdCloud, MdComputer, MdWeb, MdDevices, MdSecurity, MdSpeed } from "react-icons/md";
+import { MdSettings, MdStorage, MdEmail, MdDns, MdCloud, MdComputer, MdWeb, MdDevices, MdSecurity, MdSpeed, MdLanguage, MdExtension, MdVisibility, MdAttachMoney } from "react-icons/md";
 
 import { useState, useEffect, useRef } from "react";
 
@@ -29,6 +29,10 @@ export default function Home() {
     MdDevices: <MdDevices size={70} color="#040f2d" />,
     MdSecurity: <MdSecurity size={70} color="#040f2d" />,
     MdSpeed: <MdSpeed size={70} color="#040f2d" />,
+    MdLanguage: <MdLanguage size={70} color="#040f2d" />,
+    MdExtension: <MdExtension size={70} color="#040f2d" />,
+    MdVisibility: <MdVisibility size={70} color="#040f2d" />,
+    MdAttachMoney: <MdAttachMoney size={70} color="#040f2d" />,
   };
 
   useEffect(() => {
