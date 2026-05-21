@@ -20,7 +20,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   return (
     <AuthGuard>
-      <div style={{ display: "flex", minHeight: "100vh", backgroundColor: "#f5f5f5" }}>
+      <div style={{ display: "flex", minHeight: "100vh", backgroundColor: "#f5f5f5", color: "#000" }}>
         <AdminSidebar />
         <main style={{ flex: 1, padding: "30px", position: "relative" }}>
           {children}

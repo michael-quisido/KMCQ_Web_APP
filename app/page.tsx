@@ -4,15 +4,35 @@ import Image from "next/image";
 import Link from "next/link";
 import TypewriterText from "@/components/TypewriterText";
 import { FaLinkedin, FaFacebook, FaInstagram, FaYoutube, FaSearch, FaBars, FaTimes } from "react-icons/fa";
-import { SiGithub, SiBluesky } from "react-icons/si";
-import { MdSettings, MdStorage, MdEmail } from "react-icons/md";
-import { SiWordpress } from "react-icons/si";
+import { SiGithub, SiBluesky, SiWordpress, SiJoomla, SiDrupal } from "react-icons/si";
+import { MdSettings, MdStorage, MdEmail, MdDns, MdCloud, MdComputer, MdWeb, MdDevices, MdSecurity, MdSpeed } from "react-icons/md";
+
 import { useState, useEffect, useRef } from "react";
 
 export default function Home() {
   const menuItems = ["Home", "Products", "Reviews", "Blog", "About Us"];
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [products, setProducts] = useState<{ name: string; icon: string; description: string }[]>([]);
+
+  const iconMap: Record<string, React.ReactNode> = {
+    MdStorage: <MdStorage size={70} color="#040f2d" />,
+    SiWordpress: <SiWordpress size={70} color="#040f2d" />,
+    MdEmail: <MdEmail size={70} color="#040f2d" />,
+    MdDns: <MdDns size={70} color="#040f2d" />,
+    SiJoomla: <SiJoomla size={70} color="#040f2d" />,
+    SiDrupal: <SiDrupal size={70} color="#040f2d" />,
+    MdCloud: <MdCloud size={70} color="#040f2d" />,
+    MdComputer: <MdComputer size={70} color="#040f2d" />,
+    MdWeb: <MdWeb size={70} color="#040f2d" />,
+    MdDevices: <MdDevices size={70} color="#040f2d" />,
+    MdSecurity: <MdSecurity size={70} color="#040f2d" />,
+    MdSpeed: <MdSpeed size={70} color="#040f2d" />,
+  };
+
+  useEffect(() => {
+    fetch("/api/content/products").then(r => r.json()).then(setProducts);
+  }, []);
   const [carouselDirection, setCarouselDirection] = useState<'left' | 'right' | 'paused'>('left');
   const [carouselPosition, setCarouselPosition] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
@@ -660,31 +680,16 @@ export default function Home() {
           </div>
         </div>
         
-        {/* Second Column - Three Rows */}
+        {/* Second Column - Dynamic Products */}
         <div className="hosting-col-77 flex flex-col" style={{ gap: '20px' }}>
-          {/* Row 1 - Data Web Hosting */}
-          <div className="flex items-center" style={{ padding: '25px', backgroundColor: '#ededed', borderRadius: '10px', borderTopWidth: '25px', borderBottomWidth: '25px', border: '1px solid black', opacity: 0, animation: 'flyInFromRight 1s ease-out forwards', marginTop: '20px', marginBottom: '20px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.25)' }}>
-            <MdStorage size={70} color="#040f2d" />
-            <span style={{ color: '#040f2d', fontSize: '24px', fontWeight: 'bold', marginLeft: '15px', fontFamily: 'Arial, Helvetica, sans-serif' }}>
-              Data Web Hosting
-            </span>
-          </div>
-          
-          {/* Row 2 - WordPress Hosting */}
-          <div className="flex items-center" style={{ padding: '25px', backgroundColor: '#ededed', borderRadius: '10px', borderTopWidth: '25px', borderBottomWidth: '25px', border: '1px solid black', opacity: 0, animation: 'flyInFromRight 1s ease-out forwards', animationDelay: '0.2s', marginTop: '20px', marginBottom: '20px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.25)' }}>
-            <SiWordpress size={70} color="#040f2d" />
-            <span style={{ color: '#040f2d', fontSize: '24px', fontWeight: 'bold', marginLeft: '15px', fontFamily: 'Arial, Helvetica, sans-serif' }}>
-              WordPress Hosting
-            </span>
-          </div>
-          
-          {/* Row 3 - Email Hosting */}
-          <div className="flex items-center" style={{ padding: '25px', backgroundColor: '#ededed', borderRadius: '10px', borderTopWidth: '25px', borderBottomWidth: '25px', border: '1px solid black', opacity: 0, animation: 'flyInFromRight 1s ease-out forwards', animationDelay: '0.4s', marginTop: '20px', marginBottom: '20px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.25)' }}>
-            <MdEmail size={70} color="#040f2d" />
-            <span style={{ color: '#040f2d', fontSize: '24px', fontWeight: 'bold', marginLeft: '15px', fontFamily: 'Arial, Helvetica, sans-serif' }}>
-              Email Hosting
-            </span>
-          </div>
+          {products.map((p, i) => (
+            <div key={i} className="flex items-center" style={{ padding: '25px', backgroundColor: '#ededed', borderRadius: '10px', borderTopWidth: '25px', borderBottomWidth: '25px', border: '1px solid black', opacity: 0, animation: 'flyInFromRight 1s ease-out forwards', animationDelay: `${i * 0.2}s`, marginTop: '20px', marginBottom: '20px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.25)' }}>
+              {iconMap[p.icon] || <MdStorage size={70} color="#040f2d" />}
+              <span style={{ color: '#040f2d', fontSize: '24px', fontWeight: 'bold', marginLeft: '15px', fontFamily: 'Arial, Helvetica, sans-serif' }}>
+                {p.name}
+              </span>
+            </div>
+          ))}
         </div>
       </div>
     </div>
