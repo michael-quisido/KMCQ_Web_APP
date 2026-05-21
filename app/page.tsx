@@ -14,6 +14,7 @@ export default function Home() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [products, setProducts] = useState<{ name: string; icon: string; description: string }[]>([]);
+  const [features, setFeatures] = useState<{ title: string; icon: string; content: string }[]>([]);
 
   const iconMap: Record<string, React.ReactNode> = {
     MdStorage: <MdStorage size={70} color="#040f2d" />,
@@ -32,6 +33,7 @@ export default function Home() {
 
   useEffect(() => {
     fetch("/api/content/products").then(r => r.json()).then(setProducts);
+    fetch("/api/content/features").then(r => r.json()).then(setFeatures);
   }, []);
   const [carouselDirection, setCarouselDirection] = useState<'left' | 'right' | 'paused'>('left');
   const [carouselPosition, setCarouselPosition] = useState(0);
@@ -558,62 +560,17 @@ export default function Home() {
       }}
     >
       <div className="grid grid-cols-1 md:grid-cols-3" style={{ gap: '15px' }}>
-          {/* First Row */}
-          <div className="p-4 flex flex-col items-center justify-center" style={{ backgroundColor: '#c5c5c5', borderRadius: '10px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.25)', border: '1px solid black' }}>
-            {gridState.icons[0] && (
+        {features.map((f, i) => (
+          <div key={i} className="p-4 flex flex-col items-center justify-center" style={{ backgroundColor: '#c5c5c5', borderRadius: '10px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.25)', border: '1px solid black' }}>
+            {gridState.icons[i] && (
               <div className="scroll-fade-in" style={{ opacity: 0, animation: 'fadeIn 0.5s forwards' }}>
-                <svg width="70" height="70" viewBox="0 0 24 24" fill="#040f2d"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+                {iconMap[f.icon] || <MdSettings size={70} color="#040f2d" />}
               </div>
             )}
-            {gridState.titles[0] && <span style={{ color: '#191919', marginTop: '10px', textAlign: 'center', fontWeight: 'bold' }}><TypewriterText text="Security & Compliance" delay={0} /></span>}
-            {gridState.descriptions[0] && <div style={{ color: '#040f2d', marginTop: '10px', textAlign: 'left', fontSize: '14px' }}><TypewriterText text="Our modern industrial facilities is integrated with advanced cyber-physical defenses and automated monitoring to protect critical infrastructure while ensuring strict adherence to global manufacturing safety protocols." delay={0} /></div>}
+            {gridState.titles[i] && <span style={{ color: '#191919', marginTop: '10px', textAlign: 'center', fontWeight: 'bold' }}><TypewriterText text={f.title} delay={0} /></span>}
+            {gridState.descriptions[i] && <div style={{ color: '#040f2d', marginTop: '10px', textAlign: 'left', fontSize: '14px' }}><TypewriterText text={f.content} delay={0} /></div>}
           </div>
-          <div className="p-4 flex flex-col items-center justify-center" style={{ backgroundColor: '#c5c5c5', borderRadius: '10px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.25)', border: '1px solid black' }}>
-            {gridState.icons[1] && (
-              <div className="scroll-fade-in" style={{ opacity: 0, animation: 'fadeIn 0.5s forwards' }}>
-                <MdSettings size={70} color="#040f2d" />
-              </div>
-            )}
-            {gridState.titles[1] && <span style={{ color: '#191919', marginTop: '10px', textAlign: 'center', fontWeight: 'bold' }}><TypewriterText text="Innovation & Performance" delay={0} /></span>}
-            {gridState.descriptions[1] && <div style={{ color: '#040f2d', marginTop: '10px', textAlign: 'left', fontSize: '14px' }}><TypewriterText text="We deploy advanced neural networks and predictive analytics allows industrial enterprises to optimize complex workflows, significantly boosting throughput while pioneering groundbreaking solutions for autonomous operational excellence." delay={0} /></div>}
-          </div>
-          <div className="p-4 flex flex-col items-center justify-center" style={{ backgroundColor: '#c5c5c5', borderRadius: '10px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.25)', border: '1px solid black' }}>
-            {gridState.icons[2] && (
-              <div className="scroll-fade-in" style={{ opacity: 0, animation: 'fadeIn 0.5s forwards' }}>
-                <svg width="70" height="70" viewBox="0 0 24 24" fill="#040f2d"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-              </div>
-            )}
-            {gridState.titles[2] && <span style={{ color: '#191919', marginTop: '10px', textAlign: 'center', fontWeight: 'bold' }}><TypewriterText text="Global Reach" delay={0} /></span>}
-            {gridState.descriptions[2] && <div style={{ color: '#040f2d', marginTop: '10px', textAlign: 'left', fontSize: '14px' }}><TypewriterText text="Leading industrial innovators deploy hybrid cloud solutions to provide low-latency connectivity for remote assets, facilitating rapid digital transformation across every global production facility simultaneously." delay={0} /></div>}
-          </div>
-          {/* Second Row */}
-          <div className="p-4 flex flex-col items-center justify-center" style={{ backgroundColor: '#c5c5c5', borderRadius: '10px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.25)', border: '1px solid black' }}>
-            {gridState.icons[3] && (
-              <div className="scroll-fade-in" style={{ opacity: 0, animation: 'fadeIn 0.5s forwards' }}>
-                <svg width="70" height="70" viewBox="0 0 24 24" fill="#040f2d"><path d="M20.5 11H19V7c0-1.1-.9-2-2-2h-4V3.5C13 2.12 11.88 1 10.5 1S8 2.12 8 3.5V5H4c-1.1 0-2 .9-2 2v3.8h1.5c1.49 0 2.7 1.21 2.7 2.7s-1.21 2.7-2.7 2.7H2V20c0 1.1.9 2 2 2h3.8v-1.5c0-1.49 1.21-2.7 2.7-2.7s2.7 1.21 2.7 2.7V22H17c1.1 0 2-.9 2-2v-4h1.5c1.38 0 2.5-1.12 2.5-2.5S21.88 11 20.5 11z"/></svg>
-              </div>
-            )}
-            {gridState.titles[3] && <span style={{ color: '#191919', marginTop: '10px', textAlign: 'center', fontWeight: 'bold' }}><TypewriterText text="AI Powered" delay={0} /></span>}
-            {gridState.descriptions[3] && <div style={{ color: '#040f2d', marginTop: '10px', textAlign: 'left', fontSize: '14px' }}><TypewriterText text="Our AI-driven cloud hosting optimizes industrial workloads by automating server resource allocation, ensuring maximum uptime and intelligent data processing for mission-critical manufacturing applications." delay={0} /></div>}
-          </div>
-          <div className="p-4 flex flex-col items-center justify-center" style={{ backgroundColor: '#c5c5c5', borderRadius: '10px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.25)', border: '1px solid black' }}>
-            {gridState.icons[4] && (
-              <div className="scroll-fade-in" style={{ opacity: 0, animation: 'fadeIn 0.5s forwards' }}>
-                <svg width="70" height="70" viewBox="0 0 24 24" fill="#040f2d"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
-              </div>
-            )}
-            {gridState.titles[4] && <span style={{ color: '#191919', marginTop: '10px', textAlign: 'center', fontWeight: 'bold' }}><TypewriterText text="Transparency" delay={0} /></span>}
-            {gridState.descriptions[4] && <div style={{ color: '#040f2d', marginTop: '10px', textAlign: 'left', fontSize: '14px' }}><TypewriterText text="Advanced data observability within our industrial cloud platform ensures radical transparency, allowing engineers to detect anomalies and trace data lineage in real-time across facilities." delay={0} /></div>}
-          </div>
-          <div className="p-4 flex flex-col items-center justify-center" style={{ backgroundColor: '#c5c5c5', borderRadius: '10px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.25)', border: '1px solid black' }}>
-            {gridState.icons[5] && (
-              <div className="scroll-fade-in" style={{ opacity: 0, animation: 'fadeIn 0.5s forwards' }}>
-                <svg width="70" height="70" viewBox="0 0 24 24" fill="#040f2d"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
-              </div>
-            )}
-            {gridState.titles[5] && <span style={{ color: '#191919', marginTop: '10px', textAlign: 'center', fontWeight: 'bold' }}><TypewriterText text="Cost Savings" delay={0} /></span>}
-            {gridState.descriptions[5] && <div style={{ color: '#040f2d', marginTop: '10px', textAlign: 'left', fontSize: '14px' }}><TypewriterText text="Our AI-driven data cloud minimizes costly industrial downtime through predictive maintenance, optimizing resource allocation to deliver significant long-term savings across global manufacturing sites." delay={0} /></div>}
-          </div>
+        ))}
       </div>
     </div>
 
