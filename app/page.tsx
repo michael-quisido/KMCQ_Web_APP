@@ -572,7 +572,7 @@ export default function Home() {
               </div>
             )}
             {gridState.titles[i] && <span style={{ color: '#191919', marginTop: '10px', textAlign: 'center', fontWeight: 'bold' }}><TypewriterText text={f.title} delay={0} /></span>}
-            {gridState.descriptions[i] && <div style={{ color: '#040f2d', marginTop: '10px', textAlign: 'left', fontSize: '14px' }} dangerouslySetInnerHTML={{ __html: f.content }} />}
+            {gridState.descriptions[i] && <div style={{ color: '#040f2d', marginTop: '10px', textAlign: 'left', fontSize: '14px' }}><TypewriterText text={f.content.replace(/<[^>]*>/g, '')} delay={0} /></div>}
           </div>
         ))}
       </div>
