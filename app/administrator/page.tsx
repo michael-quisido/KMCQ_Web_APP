@@ -57,7 +57,7 @@ export default function AdminLogin() {
           <div>
             <label style={{ display: "block", marginBottom: 6, fontWeight: 600, color: "#333" }}>Enter Email</label>
             <input type="email" placeholder="Email address" value={email} onChange={(e) => setEmail(e.target.value)}
-              style={{ width: "100%", padding: 10, marginBottom: 10, border: "1px solid #ddd", borderRadius: 6 }} />
+              style={{ width: "100%", padding: 10, marginBottom: 10, border: "1px solid #ddd", borderRadius: 6, color: "#000" }} />
             <button onClick={handleSendCode} style={{ width: "100%", padding: 10, background: "#040f2d", color: "white", border: "none", borderRadius: 6, cursor: "pointer" }}>Send Code</button>
           </div>
         )}
@@ -66,7 +66,7 @@ export default function AdminLogin() {
           <div>
             <label style={{ display: "block", marginBottom: 6, fontWeight: 600, color: "#333" }}>Enter Code</label>
             <input type="text" placeholder="6-digit code" value={code} onChange={(e) => setCode(e.target.value)} maxLength={6}
-              style={{ width: "100%", padding: 10, marginBottom: 10, border: "1px solid #ddd", borderRadius: 6 }} />
+              style={{ width: "100%", padding: 10, marginBottom: 10, border: "1px solid #ddd", borderRadius: 6, color: "#000" }} />
             <button onClick={handleVerifyCode} style={{ width: "100%", padding: 10, background: "#040f2d", color: "white", border: "none", borderRadius: 6, cursor: "pointer" }}>Verify Code</button>
           </div>
         )}
@@ -75,10 +75,10 @@ export default function AdminLogin() {
           <div>
             <label style={{ display: "block", marginBottom: 6, fontWeight: 600, color: "#333" }}>Username</label>
             <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)}
-              style={{ width: "100%", padding: 10, marginBottom: 10, border: "1px solid #ddd", borderRadius: 6 }} />
+              style={{ width: "100%", padding: 10, marginBottom: 10, border: "1px solid #ddd", borderRadius: 6, color: "#000" }} />
             <label style={{ display: "block", marginBottom: 6, fontWeight: 600, color: "#333" }}>Password</label>
             <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)}
-              style={{ width: "100%", padding: 10, marginBottom: 10, border: "1px solid #ddd", borderRadius: 6 }} />
+              style={{ width: "100%", padding: 10, marginBottom: 10, border: "1px solid #ddd", borderRadius: 6, color: "#000" }} />
             <button onClick={handleLogin} style={{ width: "100%", padding: 10, background: "#040f2d", color: "white", border: "none", borderRadius: 6, cursor: "pointer" }}>Login</button>
           </div>
         )}
