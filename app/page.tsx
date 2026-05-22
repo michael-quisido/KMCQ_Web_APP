@@ -16,6 +16,7 @@ export default function Home() {
   const [products, setProducts] = useState<{ name: string; icon: string; description: string }[]>([]);
   const [features, setFeatures] = useState<{ title: string; icon: string; content: string }[]>([]);
   const [reviews, setReviews] = useState<{ name: string; image: string; role: string; industry: string; text: string; rating: number }[]>([]);
+  const [aboutSections, setAboutSections] = useState<{ section_name: string; title: string; content: string }[]>([]);
 
   const iconMap: Record<string, React.ReactNode> = {
     MdStorage: <MdStorage size={70} color="#040f2d" />,
@@ -40,6 +41,7 @@ export default function Home() {
     fetch("/api/content/products").then(r => r.json()).then(setProducts);
     fetch("/api/content/features").then(r => r.json()).then(setFeatures);
     fetch("/api/content/reviews").then(r => r.json()).then(setReviews);
+    fetch("/api/content/about").then(r => r.json()).then(setAboutSections);
   }, []);
   const [carouselDirection, setCarouselDirection] = useState<'left' | 'right' | 'paused'>('left');
   const [carouselPosition, setCarouselPosition] = useState(0);
@@ -894,29 +896,26 @@ export default function Home() {
         }
       `}</style>
       <div className="about-details-container" style={{ display: 'flex', flexDirection: 'row', gap: '40px', justifyContent: 'flex-end', alignItems: 'center' }}>
-        {/* First Column */}
-        <div className="about-details-first-col" style={{ width: '40%', display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'flex-end' }}>
-          {/* First Row */}
-          <div style={{ padding: '20px', backgroundColor: '#ffffff', borderRadius: '8px', width: '100%' }}>
-            <p style={{ color: '#040f2d', fontSize: '15px', lineHeight: '1.8', fontFamily: 'Arial, Helvetica, sans-serif' }}>
-              <TypewriterText text="KMCQ GmbH, headquartered in Cebu, Philippines, has specialized in open-source industrial technology for 15 years. We believe secure, free communication is the foundation of progress; it has been our core source code for decades. As premier Linux experts, we provide professional, eye-level partnership to companies, the public sector, and individuals. By navigating diverse business landscapes, KMCQ GmbH enables customers to reclaim their digital sovereignty and maintain complete control over their essential technical infrastructure and data." delay={0} />
-            </p>
+          {/* First Column */}
+          <div className="about-details-first-col" style={{ width: '40%', display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'flex-end' }}>
+            {(() => {
+              const about = aboutSections.find(s => s.section_name === 'about');
+              const mission = aboutSections.find(s => s.section_name === 'mission');
+              const vision = aboutSections.find(s => s.section_name === 'vision');
+              const rows: { title: string | null; content: string; delay: number }[] = [];
+              if (about) rows.push({ title: null, content: about.content, delay: 0 });
+              if (mission) rows.push({ title: mission.title, content: mission.content, delay: 1000 });
+              if (vision) rows.push({ title: vision.title, content: vision.content, delay: 2000 });
+              return rows.map((row, i) => (
+                <div key={i} style={{ padding: '20px', backgroundColor: '#ffffff', borderRadius: '8px', width: row.title === null ? '100%' : undefined }}>
+                  <p style={{ color: '#040f2d', fontSize: '15px', lineHeight: '1.8', fontFamily: 'Arial, Helvetica, sans-serif' }}>
+                    {row.title && <><strong>{row.title}</strong><br /><br /></>}
+                    <TypewriterText text={row.content.replace(/<[^>]*>/g, '')} delay={row.delay} />
+                  </p>
+                </div>
+              ));
+            })()}
           </div>
-          {/* Second Row */}
-          <div style={{ padding: '20px', backgroundColor: '#ffffff', borderRadius: '8px' }}>
-            <p style={{ color: '#040f2d', fontSize: '15px', lineHeight: '1.8', fontFamily: 'Arial, Helvetica, sans-serif' }}>
-              <strong>Mission:</strong><br /><br />
-              <TypewriterText text="To empower the global developer community by engineering high-performance cloud infrastructure and flexible VPS solutions that eliminate technical barriers, allowing creators to deploy, manage, and scale their most ambitious digital projects with absolute speed, precision, and unwavering reliability in an ever-evolving technological landscape." delay={1000} />
-            </p>
-          </div>
-          {/* Third Row */}
-          <div style={{ padding: '20px', backgroundColor: '#ffffff', borderRadius: '8px' }}>
-            <p style={{ color: '#040f2d', fontSize: '15px', lineHeight: '1.8', fontFamily: 'Arial, Helvetica, sans-serif' }}>
-              <strong>Vision:</strong><br /><br />
-              <TypewriterText text="To become the world's most trusted foundation for digital transformation, where seamless connectivity and sophisticated server architecture converge to inspire a future where every business, regardless of size, possesses the computational power and creative freedom to redefine what is possible on the modern web." delay={2000} />
-            </p>
-          </div>
-        </div>
         {/* Second Column */}
         <div className="about-details-second-col" style={{ width: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '400px' }}>
           <div style={{ width: '100%', height: '100%', position: 'relative' }}>
