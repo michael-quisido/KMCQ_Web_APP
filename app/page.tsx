@@ -15,6 +15,7 @@ export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [products, setProducts] = useState<{ name: string; icon: string; description: string }[]>([]);
   const [features, setFeatures] = useState<{ title: string; icon: string; content: string }[]>([]);
+  const [reviews, setReviews] = useState<{ name: string; image: string; role: string; industry: string; text: string; rating: number }[]>([]);
 
   const iconMap: Record<string, React.ReactNode> = {
     MdStorage: <MdStorage size={70} color="#040f2d" />,
@@ -38,6 +39,7 @@ export default function Home() {
   useEffect(() => {
     fetch("/api/content/products").then(r => r.json()).then(setProducts);
     fetch("/api/content/features").then(r => r.json()).then(setFeatures);
+    fetch("/api/content/reviews").then(r => r.json()).then(setReviews);
   }, []);
   const [carouselDirection, setCarouselDirection] = useState<'left' | 'right' | 'paused'>('left');
   const [carouselPosition, setCarouselPosition] = useState(0);
@@ -745,15 +747,7 @@ export default function Home() {
             transition: 'transform 0.1s linear'
           }}
         >
-          {[
-            { name: "Michael Conson", image: "michael_conson.png", role: "Technical Support", industry: "Retail", text: "I moved my e-commerce site to their cloud hosting right before a holiday sale. The ability to scale CPU and RAM in one click was a lifesaver. Even with 5x my normal traffic, the site didn't lag for a second." },
-            { name: "Athon Sade", image: "blank.png", role: "Software Engineer", industry: "Industrial Technology", text: "I switched to KmcQ Cloud because of their 100% uptime SLA. It's been six months and we haven't had a single second of downtime. The geo-redundancy gives me peace of mind knowing our data is mirrored across multiple nodes." },
-            { name: "Jane Franzel", image: "blank.png", role: "Engineer", industry: "Financial Services", text: "The speed difference after migrating to a cloud environment was night and day. Our LCP (Largest Contentful Paint) improved by 40% immediately. The built-in CDN integration is just the icing on the cake." },
-            { name: "Fatima Rose", image: "fatima_rose.png", role: "Back End Engineer", industry: "Mining", text: "After outgrowing shared hosting, this VPS was the perfect next step. I love having dedicated RAM that isn't affected by other users. It's like having a dedicated server but at a fraction of the price." },
-            { name: "Jay Michael Cuerquis", image: "jay_michael.png", role: "Full Stack Engineer", industry: "Industrial Technology", text: "As a developer, I need full root access to configure my Nginx and Docker environment. This VPS gives me total control without the headache of managing physical hardware. Deployment was smooth and the IP assignment was instant." },
-            { name: "Mer Santiago", image: "blank.png", role: "FrontEnd BackEnd Engineer", industry: "Real Estate", text: "The performance-to-price ratio here is unbeatable. I'm running three high-traffic WordPress sites on a single mid-tier VPS, and they all load in under a second. Highly recommend their NVMe SSD plans." },
-            { name: "Albert Tupac", image: "albert_tupac.png", role: "FrontEnd BackEnd Engineer", industry: "Restaurants", text: "I was terrified of moving my site, but their migration team handled everything for free. They moved 50GB of data and several databases with zero downtime. It was completely seamless." }
-          ].map((review, index) => (
+          {reviews.map((review, index) => (
             <div 
               key={index}
               className="review-cell"
@@ -795,15 +789,7 @@ export default function Home() {
             </div>
           ))}
           {/* Duplicate for continuous loop */}
-          {[
-            { name: "Michael Conson", image: "michael_conson.png", role: "Technical Support", industry: "Retail", text: "I moved my e-commerce site to their cloud hosting right before a holiday sale. The ability to scale CPU and RAM in one click was a lifesaver. Even with 5x my normal traffic, the site didn't lag for a second." },
-            { name: "Athon Sade", image: "blank.png", role: "Software Engineer", industry: "Industrial Technology", text: "I switched to KmcQ Cloud because of their 100% uptime SLA. It's been six months and we haven't had a single second of downtime. The geo-redundancy gives me peace of mind knowing our data is mirrored across multiple nodes." },
-            { name: "Jane Franzel", image: "blank.png", role: "Engineer", industry: "Financial Services", text: "The speed difference after migrating to a cloud environment was night and day. Our LCP (Largest Contentful Paint) improved by 40% immediately. The built-in CDN integration is just the icing on the cake." },
-            { name: "Fatima Rose", image: "fatima_rose.png", role: "Back End Engineer", industry: "Mining", text: "After outgrowing shared hosting, this VPS was the perfect next step. I love having dedicated RAM that isn't affected by other users. It's like having a dedicated server but at a fraction of the price." },
-            { name: "Jay Michael Cuerquis", image: "jay_michael.png", role: "Full Stack Engineer", industry: "Industrial Technology", text: "As a developer, I need full root access to configure my Nginx and Docker environment. This VPS gives me total control without the headache of managing physical hardware. Deployment was smooth and the IP assignment was instant." },
-            { name: "Mer Santiago", image: "blank.png", role: "FrontEnd BackEnd Engineer", industry: "Real Estate", text: "The performance-to-price ratio here is unbeatable. I'm running three high-traffic WordPress sites on a single mid-tier VPS, and they all load in under a second. Highly recommend their NVMe SSD plans." },
-            { name: "Albert Tupac", image: "albert_tupac.png", role: "FrontEnd BackEnd Engineer", industry: "Restaurants", text: "I was terrified of moving my site, but their migration team handled everything for free. They moved 50GB of data and several databases with zero downtime. It was completely seamless." }
-          ].map((review, index) => (
+          {reviews.map((review, index) => (
             <div 
               key={`dup-${index}`}
               className="review-cell"
