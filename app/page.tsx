@@ -17,6 +17,7 @@ export default function Home() {
   const [features, setFeatures] = useState<{ title: string; icon: string; content: string }[]>([]);
   const [reviews, setReviews] = useState<{ name: string; image: string; role: string; industry: string; text: string; rating: number }[]>([]);
   const [aboutSections, setAboutSections] = useState<{ section_name: string; title: string; content: string }[]>([]);
+  const [socialLinks, setSocialLinks] = useState<{ platform: string; url: string; icon: string }[]>([]);
 
   const iconMap: Record<string, React.ReactNode> = {
     MdStorage: <MdStorage size={70} color="#040f2d" />,
@@ -37,11 +38,24 @@ export default function Home() {
     MdAttachMoney: <MdAttachMoney size={70} color="#040f2d" />,
   };
 
+  function renderSocialIcon(name: string, size: number, color: string) {
+    const icons: Record<string, React.ReactNode> = {
+      FaLinkedin: <FaLinkedin size={size} color={color} />,
+      FaFacebook: <FaFacebook size={size} color={color} />,
+      FaInstagram: <FaInstagram size={size} color={color} />,
+      FaYoutube: <FaYoutube size={size} color={color} />,
+      SiGithub: <SiGithub size={size} color={color} />,
+      SiBluesky: <SiBluesky size={size} color={color} />,
+    };
+    return icons[name] || null;
+  }
+
   useEffect(() => {
     fetch("/api/content/products").then(r => r.json()).then(setProducts);
     fetch("/api/content/features").then(r => r.json()).then(setFeatures);
     fetch("/api/content/reviews").then(r => r.json()).then(setReviews);
     fetch("/api/content/about").then(r => r.json()).then(setAboutSections);
+    fetch("/api/content/social-links").then(r => r.json()).then(setSocialLinks);
   }, []);
   const [carouselDirection, setCarouselDirection] = useState<'left' | 'right' | 'paused'>('left');
   const [carouselPosition, setCarouselPosition] = useState(0);
@@ -396,20 +410,13 @@ export default function Home() {
       {/* Mobile Header */}
       <div className="md:hidden flex flex-col">
         {/* Social Icons - Top Right */}
-        <div className="flex items-center justify-end gap-3 pr-[20px] mobile-fly-in-left" style={{ animationDelay: '0.2s' }}>
-          <a href="#" className="transition-transform hover:scale-110" style={{ display: 'flex' }}>
-            <FaLinkedin size={24} color="#939393" className="social-icon" />
-          </a>
-          <a href="#" className="transition-transform hover:scale-110" style={{ display: 'flex' }}>
-            <FaFacebook size={24} color="#939393" className="social-icon" />
-          </a>
-          <a href="#" className="transition-transform hover:scale-110" style={{ display: 'flex' }}>
-            <FaInstagram size={24} color="#939393" className="social-icon" />
-          </a>
-          <a href="#" className="transition-transform hover:scale-110" style={{ display: 'flex' }}>
-            <FaYoutube size={24} color="#939393" className="social-icon" />
-          </a>
-        </div>
+          <div className="flex items-center justify-end gap-3 pr-[20px] mobile-fly-in-left" style={{ animationDelay: '0.2s' }}>
+            {socialLinks.map((link) => (
+              <a key={link.platform} href={link.url} target="_blank" rel="noopener noreferrer" className="transition-transform hover:scale-110" style={{ display: 'flex' }}>
+                {renderSocialIcon(link.icon, 24, '#939393')}
+              </a>
+            ))}
+          </div>
         {/* Logo + KMCQ GmbH - Left Side + Hamburger - Right Side */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 pl-[5px]">
@@ -495,18 +502,11 @@ export default function Home() {
                 </button>
               </form>
               <div className="flex items-center gap-[17px] slide-in-left-4s">
-                <a href="#" className="transition-transform hover:scale-110" style={{ display: 'flex' }}>
-                  <FaLinkedin size={30} color="#939393" style={{ height: 30, width: 'auto' }} className="social-icon" />
-                </a>
-                <a href="#" className="transition-transform hover:scale-110" style={{ display: 'flex' }}>
-                  <FaFacebook size={30} color="#939393" style={{ height: 30, width: 'auto' }} className="social-icon" />
-                </a>
-                <a href="#" className="transition-transform hover:scale-110" style={{ display: 'flex' }}>
-                  <FaInstagram size={30} color="#939393" style={{ height: 30, width: 'auto' }} className="social-icon" />
-                </a>
-                <a href="#" className="transition-transform hover:scale-110" style={{ display: 'flex' }}>
-                  <FaYoutube size={30} color="#939393" style={{ height: 30, width: 'auto' }} className="social-icon" />
-                </a>
+                {socialLinks.map((link) => (
+                  <a key={link.platform} href={link.url} target="_blank" rel="noopener noreferrer" className="transition-transform hover:scale-110" style={{ display: 'flex' }}>
+                    {renderSocialIcon(link.icon, 30, '#939393')}
+                  </a>
+                ))}
               </div>
             </div>
             <div className="hidden md:flex items-center gap-[5px] md:gap-[45px] mt-[17px]">
@@ -1036,14 +1036,11 @@ export default function Home() {
         {/* Second Column - Empty */}
         <div className="footer-second-col-empty" style={{ flex: 0.9 }}></div>
         {/* Third Column - Social Media */}
-        <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '20px', padding: '20px', paddingRight: '50px' }}>
-          <Link href="https://github.com" target="_blank" rel="noopener noreferrer" className="footer-link"><SiGithub size={24} color="#9d9d9d" /></Link>
-          <Link href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="footer-link"><FaLinkedin size={24} color="#9d9d9d" /></Link>
-          <Link href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="footer-link"><FaFacebook size={24} color="#9d9d9d" /></Link>
-          <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="footer-link"><FaInstagram size={24} color="#9d9d9d" /></Link>
-          <Link href="https://bsky.app" target="_blank" rel="noopener noreferrer" className="footer-link"><SiBluesky size={24} color="#9d9d9d" /></Link>
-          <Link href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="footer-link"><FaYoutube size={24} color="#9d9d9d" /></Link>
-        </div>
+          <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '20px', padding: '20px', paddingRight: '50px' }}>
+            {socialLinks.map((link) => (
+              <Link key={link.platform} href={link.url} target="_blank" rel="noopener noreferrer" className="footer-link">{renderSocialIcon(link.icon, 24, '#9d9d9d')}</Link>
+            ))}
+          </div>
       </div>
     </div>
     </>
