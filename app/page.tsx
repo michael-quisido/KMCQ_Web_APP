@@ -778,7 +778,7 @@ export default function Home() {
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                   <span style={{ color: '#040f2d', fontSize: '18px', fontWeight: 'bold' }}>{review.name}</span>
-                  <span style={{ color: '#FFD700', fontSize: '24px', lineHeight: '1' }}>★★★★★</span>
+                  <span style={{ color: '#FFD700', fontSize: '24px', lineHeight: '1' }}>{'★'.repeat(review.rating || 5)}</span>
                 </div>
               </div>
               <p style={{ color: '#555555', fontSize: '15px', lineHeight: '1.6', marginBottom: '15px', marginTop: '20px', fontStyle: 'italic' }}>&ldquo;{review.text}&rdquo;</p>
@@ -820,7 +820,7 @@ export default function Home() {
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                   <span style={{ color: '#040f2d', fontSize: '18px', fontWeight: 'bold' }}>{review.name}</span>
-                  <span style={{ color: '#FFD700', fontSize: '24px', lineHeight: '1' }}>★★★★★</span>
+                  <span style={{ color: '#FFD700', fontSize: '24px', lineHeight: '1' }}>{'★'.repeat(review.rating || 5)}</span>
                 </div>
               </div>
               <p style={{ color: '#555555', fontSize: '15px', lineHeight: '1.6', marginBottom: '15px', marginTop: '20px', fontStyle: 'italic' }}>&ldquo;{review.text}&rdquo;</p>
