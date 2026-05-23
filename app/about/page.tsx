@@ -7,7 +7,6 @@ export default function Page() {
   return (
     <PageLayout title="About Us">
       <div style={{ 
-        minHeight: '60vh',
         width: '100%'
       }}>
         <div style={{ 
@@ -45,8 +44,8 @@ export default function Page() {
           </div>
           <CustomContentWrapper pageSlug="about" />
         </div>
+        <AboutContent title="About Us" />
       </div>
-      <AboutContent title="About Us" />
     </PageLayout>
   );
 }

@@ -7,7 +7,6 @@ export default function Page() {
   return (
     <PageLayout title="Privacy Policy">
       <div style={{ 
-        minHeight: '60vh',
         width: '100%'
       }}>
         <div style={{ 
@@ -45,8 +44,8 @@ export default function Page() {
           </div>
           <CustomContentWrapper pageSlug="policy" />
         </div>
+        <AboutContent title="Our Policy" />
       </div>
-      <AboutContent title="Our Policy" />
     </PageLayout>
   );
 }

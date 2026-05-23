@@ -6,7 +6,6 @@ export default function Page() {
   return (
     <PageLayout title="Email Hosting">
       <div style={{ 
-        minHeight: '60vh',
         width: '100%'
       }}>
         <div style={{ 
@@ -43,8 +42,8 @@ export default function Page() {
             </h1>
           </div>
         </div>
+        <AboutContent title="Email Hosting" />
       </div>
-      <AboutContent title="Email Hosting" />
     </PageLayout>
   );
 }

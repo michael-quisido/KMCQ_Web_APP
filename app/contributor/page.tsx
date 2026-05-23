@@ -7,7 +7,6 @@ export default function Page() {
   return (
     <PageLayout title="Become a Contributor">
       <div style={{ 
-        minHeight: '60vh',
         width: '100%'
       }}>
         <div style={{ 
@@ -45,8 +44,8 @@ export default function Page() {
           </div>
           <CustomContentWrapper pageSlug="contributor" />
         </div>
+        <AboutContent title="Become a Contributor" />
       </div>
-      <AboutContent title="Become a Contributor" />
     </PageLayout>
   );
 }

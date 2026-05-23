@@ -7,7 +7,6 @@ export default function Page() {
   return (
     <PageLayout title="Community">
       <div style={{ 
-        minHeight: '60vh',
         width: '100%'
       }}>
         <div style={{ 
@@ -45,8 +44,8 @@ export default function Page() {
           </div>
           <CustomContentWrapper pageSlug="community" />
         </div>
+        <AboutContent title="Our Community" />
       </div>
-      <AboutContent title="Our Community" />
     </PageLayout>
   );
 }
