@@ -1,6 +1,7 @@
 import PageLayout from "@/components/PageLayout";
 import CustomContentWrapper from "@/components/CustomContentWrapper";
 import Image from "next/image";
+import AboutContent from "@/components/AboutContent";
 
 export default function Page() {
   return (
@@ -45,6 +46,7 @@ export default function Page() {
           <CustomContentWrapper pageSlug="about" />
         </div>
       </div>
+      <AboutContent title="About Us" />
     </PageLayout>
   );
 }

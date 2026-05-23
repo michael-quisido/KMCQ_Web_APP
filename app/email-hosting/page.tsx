@@ -1,5 +1,6 @@
 import PageLayout from "@/components/PageLayout";
 import Image from "next/image";
+import AboutContent from "@/components/AboutContent";
 
 export default function Page() {
   return (
@@ -43,6 +44,7 @@ export default function Page() {
           </div>
         </div>
       </div>
+      <AboutContent title="Email Hosting" />
     </PageLayout>
   );
 }
