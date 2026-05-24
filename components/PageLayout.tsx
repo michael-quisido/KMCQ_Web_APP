@@ -54,9 +54,6 @@ export default function PageLayout({ children, title }: { children: React.ReactN
                 </form>
                 <div className="flex items-center gap-[17px]">
                   <a href="#" className="transition-transform hover:scale-110" style={{ display: 'flex' }}>
-                    <SiGithub size={30} color="#939393" style={{ height: 30, width: 'auto' }} />
-                  </a>
-                  <a href="#" className="transition-transform hover:scale-110" style={{ display: 'flex' }}>
                     <FaLinkedin size={30} color="#939393" style={{ height: 30, width: 'auto' }} />
                   </a>
                   <a href="#" className="transition-transform hover:scale-110" style={{ display: 'flex' }}>
@@ -67,6 +64,9 @@ export default function PageLayout({ children, title }: { children: React.ReactN
                   </a>
                   <a href="#" className="transition-transform hover:scale-110" style={{ display: 'flex' }}>
                     <FaYoutube size={30} color="#939393" style={{ height: 30, width: 'auto' }} />
+                  </a>
+                  <a href="#" className="transition-transform hover:scale-110" style={{ display: 'flex' }}>
+                    <SiGithub size={30} color="#939393" style={{ height: 30, width: 'auto' }} />
                   </a>
                   <a href="#" className="transition-transform hover:scale-110" style={{ display: 'flex' }}>
                     <SiBluesky size={30} color="#939393" style={{ height: 30, width: 'auto' }} />
@@ -103,9 +103,6 @@ export default function PageLayout({ children, title }: { children: React.ReactN
           {/* Social Icons - Top Right */}
           <div className="flex items-center justify-end gap-3 pr-[20px]">
             <a href="#" className="transition-transform hover:scale-110" style={{ display: 'flex' }}>
-              <SiGithub size={24} color="#939393" />
-            </a>
-            <a href="#" className="transition-transform hover:scale-110" style={{ display: 'flex' }}>
               <FaLinkedin size={24} color="#939393" />
             </a>
             <a href="#" className="transition-transform hover:scale-110" style={{ display: 'flex' }}>
@@ -116,6 +113,9 @@ export default function PageLayout({ children, title }: { children: React.ReactN
             </a>
             <a href="#" className="transition-transform hover:scale-110" style={{ display: 'flex' }}>
               <FaYoutube size={24} color="#939393" />
+            </a>
+            <a href="#" className="transition-transform hover:scale-110" style={{ display: 'flex' }}>
+              <SiGithub size={24} color="#939393" />
             </a>
             <a href="#" className="transition-transform hover:scale-110" style={{ display: 'flex' }}>
               <SiBluesky size={24} color="#939393" />
@@ -279,12 +279,12 @@ export default function PageLayout({ children, title }: { children: React.ReactN
           <div className="footer-second-col-empty" style={{ flex: 0.9 }}></div>
           {/* Third Column - Social Media */}
           <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '20px', padding: '20px', paddingRight: '50px' }}>
-            <Link href="https://github.com" target="_blank" rel="noopener noreferrer" className="footer-link"><SiGithub size={24} color="#9d9d9d" /></Link>
             <Link href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="footer-link"><FaLinkedin size={24} color="#9d9d9d" /></Link>
             <Link href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="footer-link"><FaFacebook size={24} color="#9d9d9d" /></Link>
             <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="footer-link"><FaInstagram size={24} color="#9d9d9d" /></Link>
-            <Link href="https://bsky.app" target="_blank" rel="noopener noreferrer" className="footer-link"><SiBluesky size={24} color="#9d9d9d" /></Link>
             <Link href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="footer-link"><FaYoutube size={24} color="#9d9d9d" /></Link>
+            <Link href="https://github.com" target="_blank" rel="noopener noreferrer" className="footer-link"><SiGithub size={24} color="#9d9d9d" /></Link>
+            <Link href="https://bsky.app" target="_blank" rel="noopener noreferrer" className="footer-link"><SiBluesky size={24} color="#9d9d9d" /></Link>
           </div>
         </div>
       </div>
