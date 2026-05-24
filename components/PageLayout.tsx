@@ -54,6 +54,9 @@ export default function PageLayout({ children, title }: { children: React.ReactN
                 </form>
                 <div className="flex items-center gap-[17px]">
                   <a href="#" className="transition-transform hover:scale-110" style={{ display: 'flex' }}>
+                    <SiGithub size={30} color="#939393" style={{ height: 30, width: 'auto' }} />
+                  </a>
+                  <a href="#" className="transition-transform hover:scale-110" style={{ display: 'flex' }}>
                     <FaLinkedin size={30} color="#939393" style={{ height: 30, width: 'auto' }} />
                   </a>
                   <a href="#" className="transition-transform hover:scale-110" style={{ display: 'flex' }}>
@@ -64,6 +67,9 @@ export default function PageLayout({ children, title }: { children: React.ReactN
                   </a>
                   <a href="#" className="transition-transform hover:scale-110" style={{ display: 'flex' }}>
                     <FaYoutube size={30} color="#939393" style={{ height: 30, width: 'auto' }} />
+                  </a>
+                  <a href="#" className="transition-transform hover:scale-110" style={{ display: 'flex' }}>
+                    <SiBluesky size={30} color="#939393" style={{ height: 30, width: 'auto' }} />
                   </a>
                 </div>
               </div>
@@ -97,6 +103,9 @@ export default function PageLayout({ children, title }: { children: React.ReactN
           {/* Social Icons - Top Right */}
           <div className="flex items-center justify-end gap-3 pr-[20px]">
             <a href="#" className="transition-transform hover:scale-110" style={{ display: 'flex' }}>
+              <SiGithub size={24} color="#939393" />
+            </a>
+            <a href="#" className="transition-transform hover:scale-110" style={{ display: 'flex' }}>
               <FaLinkedin size={24} color="#939393" />
             </a>
             <a href="#" className="transition-transform hover:scale-110" style={{ display: 'flex' }}>
@@ -107,6 +116,9 @@ export default function PageLayout({ children, title }: { children: React.ReactN
             </a>
             <a href="#" className="transition-transform hover:scale-110" style={{ display: 'flex' }}>
               <FaYoutube size={24} color="#939393" />
+            </a>
+            <a href="#" className="transition-transform hover:scale-110" style={{ display: 'flex' }}>
+              <SiBluesky size={24} color="#939393" />
             </a>
           </div>
           {/* Logo + KMCQ GmbH - Left Side + Hamburger - Right Side */}
