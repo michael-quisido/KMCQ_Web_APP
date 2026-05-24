@@ -29,7 +29,7 @@ export default function CustomContentWrapper({ pageSlug }: CustomContentWrapperP
   if (!content) return null;
 
   return (
-    <div style={{ backgroundColor: "#ffffff", padding: "60px 20px", width: "100%", boxSizing: "border-box" }}>
+    <div style={{ backgroundColor: "#ffffff", color: "#040f2d", padding: "60px 20px", width: "100%", boxSizing: "border-box" }}>
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         <div dangerouslySetInnerHTML={{ __html: content.content }} />
       </div>

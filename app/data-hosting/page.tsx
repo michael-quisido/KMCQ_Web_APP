@@ -26,8 +26,8 @@ export default function Page() {
               Data Hosting
             </h1>
           </div>
-          <CustomContentWrapper pageSlug="data-hosting" />
         </div>
+        <CustomContentWrapper pageSlug="data-hosting" />
       </div>
     </PageLayout>
   );

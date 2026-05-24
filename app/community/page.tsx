@@ -26,8 +26,8 @@ export default function Page() {
               Our Community
             </h1>
           </div>
-          <CustomContentWrapper pageSlug="community" />
         </div>
+        <CustomContentWrapper pageSlug="community" />
       </div>
     </PageLayout>
   );

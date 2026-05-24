@@ -26,8 +26,8 @@ export default function Page() {
               Become a Contributor
             </h1>
           </div>
-          <CustomContentWrapper pageSlug="contributor" />
         </div>
+        <CustomContentWrapper pageSlug="contributor" />
       </div>
     </PageLayout>
   );

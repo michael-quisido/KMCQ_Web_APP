@@ -26,8 +26,8 @@ export default function Page() {
               Contact Us
             </h1>
           </div>
-          <CustomContentWrapper pageSlug="contact" />
         </div>
+        <CustomContentWrapper pageSlug="contact" />
       </div>
     </PageLayout>
   );

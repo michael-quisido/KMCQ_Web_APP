@@ -26,8 +26,8 @@ export default function Page() {
               FAQs
             </h1>
           </div>
-          <CustomContentWrapper pageSlug="faqs" />
         </div>
+        <CustomContentWrapper pageSlug="faqs" />
       </div>
     </PageLayout>
   );

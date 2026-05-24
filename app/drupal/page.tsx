@@ -26,8 +26,8 @@ export default function Page() {
               Drupal
             </h1>
           </div>
-          <CustomContentWrapper pageSlug="drupal" />
         </div>
+        <CustomContentWrapper pageSlug="drupal" />
       </div>
     </PageLayout>
   );

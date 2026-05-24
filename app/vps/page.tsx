@@ -26,8 +26,8 @@ export default function Page() {
               VPS
             </h1>
           </div>
-          <CustomContentWrapper pageSlug="vps" />
         </div>
+        <CustomContentWrapper pageSlug="vps" />
       </div>
     </PageLayout>
   );

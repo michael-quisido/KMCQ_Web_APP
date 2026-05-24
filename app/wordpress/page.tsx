@@ -26,8 +26,8 @@ export default function Page() {
               WordPress
             </h1>
           </div>
-          <CustomContentWrapper pageSlug="wordpress" />
         </div>
+        <CustomContentWrapper pageSlug="wordpress" />
       </div>
     </PageLayout>
   );

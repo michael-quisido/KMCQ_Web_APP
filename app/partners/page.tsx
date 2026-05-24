@@ -26,8 +26,8 @@ export default function Page() {
               Our Partners
             </h1>
           </div>
-          <CustomContentWrapper pageSlug="partners" />
         </div>
+        <CustomContentWrapper pageSlug="partners" />
       </div>
     </PageLayout>
   );

@@ -26,8 +26,8 @@ export default function Page() {
               Email Hosting
             </h1>
           </div>
-          <CustomContentWrapper pageSlug="email-hosting" />
         </div>
+        <CustomContentWrapper pageSlug="email-hosting" />
       </div>
     </PageLayout>
   );

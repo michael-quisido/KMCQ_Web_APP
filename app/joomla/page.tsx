@@ -26,8 +26,8 @@ export default function Page() {
               Joomla
             </h1>
           </div>
-          <CustomContentWrapper pageSlug="joomla" />
         </div>
+        <CustomContentWrapper pageSlug="joomla" />
       </div>
     </PageLayout>
   );

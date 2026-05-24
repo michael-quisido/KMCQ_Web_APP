@@ -26,8 +26,8 @@ export default function Page() {
               Career/Jobs
             </h1>
           </div>
-          <CustomContentWrapper pageSlug="careers" />
         </div>
+        <CustomContentWrapper pageSlug="careers" />
       </div>
     </PageLayout>
   );

@@ -26,8 +26,8 @@ export default function Page() {
               Our Policy
             </h1>
           </div>
-          <CustomContentWrapper pageSlug="policy" />
         </div>
+        <CustomContentWrapper pageSlug="policy" />
       </div>
     </PageLayout>
   );

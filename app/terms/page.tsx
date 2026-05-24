@@ -26,8 +26,8 @@ export default function Page() {
               Terms of Use
             </h1>
           </div>
-          <CustomContentWrapper pageSlug="terms" />
         </div>
+        <CustomContentWrapper pageSlug="terms" />
       </div>
     </PageLayout>
   );
