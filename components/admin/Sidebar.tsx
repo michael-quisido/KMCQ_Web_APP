@@ -10,7 +10,8 @@ const navItems = [
   { label: "Reviews", href: "/administrator/reviews", icon: "💬" },
   { label: "About", href: "/administrator/about", icon: "ℹ️" },
   { label: "Menu", href: "/administrator/menu", icon: "📋" },
-  { label: "Custom Pages", href: "/administrator/custom-pages", icon: "📄" },
+  { label: "Subpages", href: "/administrator/subpages", icon: "📄" },
+  { label: "Custom Pages", href: "/administrator/custom-pages", icon: "📋" },
   { label: "Media", href: "/administrator/media", icon: "🖼️" },
   { label: "Settings", href: "/administrator/settings", icon: "⚙️" },
 ];
