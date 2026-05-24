@@ -29,8 +29,10 @@ export default function CustomContentWrapper({ pageSlug }: CustomContentWrapperP
   if (!content) return null;
 
   return (
-    <div className="custom-content-wrapper" style={{ maxWidth: 1200, margin: "0 auto", padding: "40px 20px" }}>
-      <div dangerouslySetInnerHTML={{ __html: content.content }} />
+    <div style={{ backgroundColor: "#ffffff", padding: "60px 20px", width: "100%", boxSizing: "border-box" }}>
+      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+        <div dangerouslySetInnerHTML={{ __html: content.content }} />
+      </div>
     </div>
   );
 }
