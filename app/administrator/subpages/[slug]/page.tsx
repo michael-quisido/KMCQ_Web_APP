@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import RichTextEditor from "@/components/admin/RichTextEditor";
+import HeaderImagePicker from "@/components/admin/HeaderImagePicker";
 
 const subpageTitles: Record<string, string> = {
   about: "About Us", careers: "Career/Jobs", partners: "Our Partners",
@@ -28,6 +29,7 @@ export default function SubpageEditor() {
   const [pageId, setPageId] = useState<number | null>(null);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [headerImage, setHeaderImage] = useState("");
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(true);
@@ -42,6 +44,7 @@ export default function SubpageEditor() {
         setPageId(page.id);
         fetch(`/api/custom-pages/${page.id}`).then(r => r.json()).then(data => {
           if (data.content) setContent(data.content);
+          if (data.header_image) setHeaderImage(data.header_image);
           setLoading(false);
         });
       } else {
@@ -53,6 +56,7 @@ export default function SubpageEditor() {
           const created = await res.json();
           setPageId(created.id);
           setContent(buildDefaultContent(pageTitle));
+          if (created.header_image) setHeaderImage(created.header_image);
         }
         setLoading(false);
       }
@@ -64,7 +68,7 @@ export default function SubpageEditor() {
     setSaving(true); setMessage("");
     const res = await fetch(`/api/custom-pages/${pageId}`, {
       method: "PUT", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ slug, title, content }),
+      body: JSON.stringify({ slug, title, content, header_image: headerImage || null }),
     });
     setMessage((await res.json()).message);
     setSaving(false);
@@ -75,6 +79,9 @@ export default function SubpageEditor() {
   return (
     <div>
       <h1 style={{ fontSize: 24, fontWeight: "bold", marginBottom: 20 }}>Edit: {title}</h1>
+      <div style={{ marginBottom: 16 }}>
+        <HeaderImagePicker value={headerImage} onChange={setHeaderImage} />
+      </div>
       <div style={{ marginBottom: 16 }}>
         <label style={{ display: "block", marginBottom: 4, fontWeight: 600 }}>Content</label>
         <RichTextEditor content={content} onChange={setContent} />

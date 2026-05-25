@@ -45,8 +45,8 @@ async function seed() {
     if (rows.length === 0) {
       const content = buildContent(title);
       await pool.execute(
-        "INSERT INTO custom_pages (slug, title, content) VALUES (?, ?, ?)",
-        [slug, title, content]
+        "INSERT INTO custom_pages (slug, title, content, header_image) VALUES (?, ?, ?, ?)",
+        [slug, title, content, "/header_images/tazz.jpg"]
       );
       console.log(`  Created: ${slug} (${title})`);
       count++;

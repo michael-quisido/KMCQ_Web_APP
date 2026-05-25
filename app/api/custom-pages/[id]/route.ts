@@ -8,9 +8,9 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { id } = await params;
-  const { slug, title, content } = await req.json();
+  const { slug, title, content, header_image } = await req.json();
 
-  await query("UPDATE custom_pages SET slug = ?, title = ?, content = ? WHERE id = ?", [slug, title, content, id]);
+  await query("UPDATE custom_pages SET slug = ?, title = ?, content = ?, header_image = ? WHERE id = ?", [slug, title, content, header_image || null, id]);
   return NextResponse.json({ message: "Updated" });
 }
 

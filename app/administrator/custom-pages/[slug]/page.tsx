@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import RichTextEditor from "@/components/admin/RichTextEditor";
+import HeaderImagePicker from "@/components/admin/HeaderImagePicker";
 
 function buildDefaultContent(title: string) {
   return `<h1 style="color:#040f2d;font-size:37px;font-weight:bold;font-family:Arial,Helvetica,sans-serif;margin:0 0 30px 0">${title}</h1>
@@ -19,6 +20,7 @@ export default function CustomPageEditor() {
   const [title, setTitle] = useState("");
   const [pageSlug, setPageSlug] = useState("");
   const [content, setContent] = useState("");
+  const [headerImage, setHeaderImage] = useState("");
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
   const [pageId, setPageId] = useState<number | null>(null);
@@ -33,6 +35,7 @@ export default function CustomPageEditor() {
         setPageSlug(page.slug);
         fetch(`/api/custom-pages/${page.id}`).then(r => r.json()).then(data => {
           if (data.content) setContent(data.content);
+          if (data.header_image) setHeaderImage(data.header_image);
           setLoading(false);
         });
       } else {
@@ -46,6 +49,7 @@ export default function CustomPageEditor() {
           setPageSlug(created.slug);
           setTitle(slug);
           setContent(buildDefaultContent(slug));
+          if (created.header_image) setHeaderImage(created.header_image);
         }
         setLoading(false);
       }
@@ -57,7 +61,7 @@ export default function CustomPageEditor() {
     setSaving(true); setMessage("");
     const res = await fetch(`/api/custom-pages/${pageId}`, {
       method: "PUT", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ slug: pageSlug, title, content }),
+      body: JSON.stringify({ slug: pageSlug, title, content, header_image: headerImage || null }),
     });
     setMessage((await res.json()).message);
     setSaving(false);
@@ -72,6 +76,9 @@ export default function CustomPageEditor() {
         <label style={{ display: "block", marginBottom: 4, fontWeight: 600 }}>Title</label>
         <input value={title} onChange={(e) => setTitle(e.target.value)}
           style={{ width: "100%", padding: 10, border: "1px solid #ddd", borderRadius: 6 }} />
+      </div>
+      <div style={{ marginBottom: 16 }}>
+        <HeaderImagePicker value={headerImage} onChange={setHeaderImage} />
       </div>
       <div style={{ marginBottom: 16 }}>
         <label style={{ display: "block", marginBottom: 4, fontWeight: 600 }}>Content</label>
