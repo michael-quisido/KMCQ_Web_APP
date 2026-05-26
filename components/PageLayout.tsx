@@ -4,13 +4,27 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaLinkedin, FaFacebook, FaInstagram, FaYoutube, FaSearch, FaBars, FaTimes } from "react-icons/fa";
 import { SiGithub, SiBluesky } from "react-icons/si";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function PageLayout({ children, title }: { children: React.ReactNode; title?: string }) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const menuItems = ["Home", "Products", "Reviews", "Blog", "About Us"];
+  const DEFAULT_MENU_ITEMS = [
+    { label: "Home", href: "/" },
+    { label: "Products", href: "/#products" },
+    { label: "Reviews", href: "/#reviews" },
+    { label: "Blog", href: "/blog" },
+    { label: "About Us", href: "/#about-us" },
+  ];
+  const [menuItems, setMenuItems] = useState(DEFAULT_MENU_ITEMS);
+
+  useEffect(() => {
+    fetch("/api/content/menu")
+      .then(r => r.json())
+      .then(data => { if (data && data.length > 0) setMenuItems(data); })
+      .catch(() => {});
+  }, []);
 
   return (
     <>
@@ -76,7 +90,7 @@ export default function PageLayout({ children, title }: { children: React.ReactN
               <div className="hidden md:flex items-center gap-[5px] md:gap-[45px] mt-[17px]">
                 {menuItems.map((item, index) => (
                   <div 
-                    key={item} 
+                    key={item.label}
                     className="px-2 py-1 rounded"
                     style={{ 
                       backgroundColor: hoveredIndex === index ? 'white' : 'transparent'
@@ -85,11 +99,11 @@ export default function PageLayout({ children, title }: { children: React.ReactN
                     onMouseLeave={() => setHoveredIndex(null)}
                   >
                     <Link
-                      href={item === "Home" ? "/" : item === "Blog" ? "/blog" : item === "About Us" ? "/#about-us" : `/#${item.toLowerCase().replace(" ", "-")}`}
+                      href={item.href}
                       className="font-ubuntu text-[17px] transition-colors"
                       style={{ color: hoveredIndex === index ? 'black' : 'white' }}
                     >
-                      {item}
+                      {item.label}
                     </Link>
                   </div>
                 ))}
@@ -150,12 +164,12 @@ export default function PageLayout({ children, title }: { children: React.ReactN
             <div className="flex flex-col items-end mt-4 space-y-4 z-50 pr-[20px]">
               {menuItems.map((item) => (
                 <Link
-                  key={item}
-                  href={item === "Home" ? "/" : item === "Blog" ? "/blog" : item === "About Us" ? "/#about-us" : `/#${item.toLowerCase().replace(" ", "-")}`}
+                  key={item.label}
+                  href={item.href}
                   className="font-ubuntu text-[20px] text-white hover:text-gray-300"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  {item}
+                  {item.label}
                 </Link>
               ))}
             </div>

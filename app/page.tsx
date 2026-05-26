@@ -10,7 +10,14 @@ import { MdSettings, MdStorage, MdEmail, MdDns, MdCloud, MdComputer, MdWeb, MdDe
 import { useState, useEffect, useRef } from "react";
 
 export default function Home() {
-  const menuItems = ["Home", "Products", "Reviews", "Blog", "About Us"];
+  const DEFAULT_MENU_ITEMS = [
+    { label: "Home", href: "/" },
+    { label: "Products", href: "/#products" },
+    { label: "Reviews", href: "/#reviews" },
+    { label: "Blog", href: "/blog" },
+    { label: "About Us", href: "/#about-us" },
+  ];
+  const [menuItems, setMenuItems] = useState(DEFAULT_MENU_ITEMS);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [products, setProducts] = useState<{ name: string; icon: string; description: string }[]>([]);
@@ -56,6 +63,10 @@ export default function Home() {
     fetch("/api/content/reviews").then(r => r.json()).then(setReviews);
     fetch("/api/content/about").then(r => r.json()).then(setAboutSections);
     fetch("/api/content/social-links").then(r => r.json()).then(setSocialLinks);
+    fetch("/api/content/menu")
+      .then(r => r.json())
+      .then(data => { if (data && data.length > 0) setMenuItems(data); })
+      .catch(() => {});
   }, []);
   const [carouselDirection, setCarouselDirection] = useState<'left' | 'right' | 'paused'>('left');
   const [carouselPosition, setCarouselPosition] = useState(0);
@@ -449,12 +460,12 @@ export default function Home() {
           <div className="flex flex-col items-end mt-4 space-y-4 z-50 pr-[20px]">
             {menuItems.map((item) => (
               <Link
-                key={item}
-                href={item === "Home" ? "/" : item === "About Us" ? "/#about-us" : `/#${item.toLowerCase().replace(" ", "-")}`}
+                key={item.label}
+                href={item.href}
                 className="font-ubuntu text-[20px] text-white hover:text-gray-300"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                {item}
+                {item.label}
               </Link>
             ))}
           </div>
@@ -512,7 +523,7 @@ export default function Home() {
             <div className="hidden md:flex items-center gap-[5px] md:gap-[45px] mt-[17px]">
               {menuItems.map((item, index) => (
                 <div 
-                  key={item} 
+                  key={item.label}
                   className="fade-in-4s px-2 py-1 rounded"
                   style={{ 
                     animationDelay: `${index * 0.2}s`,
@@ -522,11 +533,11 @@ export default function Home() {
                   onMouseLeave={() => setHoveredIndex(null)}
                 >
                   <Link
-                    href={item === "Home" ? "/" : item === "About Us" ? "/#about-us" : `/#${item.toLowerCase().replace(" ", "-")}`}
+                    href={item.href}
                     className="font-ubuntu text-[17px] transition-colors"
                     style={{ color: hoveredIndex === index ? 'black' : 'white' }}
                   >
-                    {item}
+                    {item.label}
                   </Link>
                 </div>
               ))}

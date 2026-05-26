@@ -70,6 +70,13 @@ CREATE TABLE IF NOT EXISTS menu_items (
   sort_order INT DEFAULT 0
 );
 
+INSERT INTO menu_items (label, href, sort_order) VALUES
+('Home', '/', 0),
+('Products', '/#products', 1),
+('Reviews', '/#reviews', 2),
+('Blog', '/blog', 3),
+('About Us', '/#about-us', 4);
+
 CREATE TABLE IF NOT EXISTS social_links (
   id INT AUTO_INCREMENT PRIMARY KEY,
   platform VARCHAR(50) NOT NULL,
