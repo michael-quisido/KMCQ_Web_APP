@@ -67,15 +67,35 @@ CREATE TABLE IF NOT EXISTS menu_items (
   id INT AUTO_INCREMENT PRIMARY KEY,
   label VARCHAR(100) NOT NULL,
   href VARCHAR(500) NOT NULL,
-  sort_order INT DEFAULT 0
+  sort_order INT DEFAULT 0,
+  location VARCHAR(20) NOT NULL DEFAULT 'header',
+  section VARCHAR(50) DEFAULT NULL
 );
 
-INSERT INTO menu_items (label, href, sort_order) VALUES
-('Home', '/', 0),
-('Products', '/#products', 1),
-('Reviews', '/#reviews', 2),
-('Blog', '/blog', 3),
-('About Us', '/#about-us', 4);
+INSERT INTO menu_items (label, href, sort_order, location, section) VALUES
+('Home', '/', 0, 'header', NULL),
+('Products', '/#products', 1, 'header', NULL),
+('Reviews', '/#reviews', 2, 'header', NULL),
+('Blog', '/blog', 3, 'header', NULL),
+('About Us', '/#about-us', 4, 'header', NULL);
+
+INSERT INTO menu_items (label, href, sort_order, location, section) VALUES
+('KMCQ GmbH', '/about', 0, 'footer', 'about'),
+('Career/Jobs', '/careers', 1, 'footer', 'about'),
+('Partners', '/partners', 2, 'footer', 'about'),
+('Contact Us', '/contact', 3, 'footer', 'about'),
+('Data Hosting', '/data-hosting', 0, 'footer', 'products'),
+('WordPress', '/wordpress', 1, 'footer', 'products'),
+('Joomla', '/joomla', 2, 'footer', 'products'),
+('Drupal', '/drupal', 3, 'footer', 'products'),
+('VPS', '/vps', 4, 'footer', 'products'),
+('Email Hosting', '/email-hosting', 5, 'footer', 'products'),
+('KMCQ Community', '/community', 0, 'footer', 'community'),
+('FAQs', '/faqs', 0, 'footer', 'learn-more'),
+('Our Blog', '/blog', 1, 'footer', 'learn-more'),
+('Become a Contributor', '/contributor', 2, 'footer', 'learn-more'),
+('Terms of Use', '/terms', 0, 'footer', 'legal'),
+('Policy', '/policy', 1, 'footer', 'legal');
 
 CREATE TABLE IF NOT EXISTS social_links (
   id INT AUTO_INCREMENT PRIMARY KEY,

@@ -17,12 +17,35 @@ export default function PageLayout({ children, title }: { children: React.ReactN
     { label: "Blog", href: "/blog" },
     { label: "About Us", href: "/#about-us" },
   ];
+  const DEFAULT_FOOTER_ITEMS: { label: string; href: string; section: string }[] = [
+    { label: "KMCQ GmbH", href: "/about", section: "about" },
+    { label: "Career/Jobs", href: "/careers", section: "about" },
+    { label: "Partners", href: "/partners", section: "about" },
+    { label: "Contact Us", href: "/contact", section: "about" },
+    { label: "Data Hosting", href: "/data-hosting", section: "products" },
+    { label: "WordPress", href: "/wordpress", section: "products" },
+    { label: "Joomla", href: "/joomla", section: "products" },
+    { label: "Drupal", href: "/drupal", section: "products" },
+    { label: "VPS", href: "/vps", section: "products" },
+    { label: "Email Hosting", href: "/email-hosting", section: "products" },
+    { label: "KMCQ Community", href: "/community", section: "community" },
+    { label: "FAQs", href: "/faqs", section: "learn-more" },
+    { label: "Our Blog", href: "/blog", section: "learn-more" },
+    { label: "Become a Contributor", href: "/contributor", section: "learn-more" },
+    { label: "Terms of Use", href: "/terms", section: "legal" },
+    { label: "Policy", href: "/policy", section: "legal" },
+  ];
   const [menuItems, setMenuItems] = useState(DEFAULT_MENU_ITEMS);
+  const [footerItems, setFooterItems] = useState(DEFAULT_FOOTER_ITEMS);
 
   useEffect(() => {
     fetch("/api/content/menu")
       .then(r => r.json())
       .then(data => { if (data && data.length > 0) setMenuItems(data); })
+      .catch(() => {});
+    fetch("/api/content/menu?location=footer")
+      .then(r => r.json())
+      .then(data => { if (data && data.length > 0) setFooterItems(data); })
       .catch(() => {});
   }, []);
 
@@ -232,38 +255,36 @@ export default function PageLayout({ children, title }: { children: React.ReactN
           <div style={{ flex: 1, padding: '20px' }}>
             <p style={{ color: '#ffffff', fontSize: '18px', fontWeight: 'bold', marginBottom: '15px' }}>About Us</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-              <Link href="/about" className="footer-link" style={{ color: '#9d9d9d', fontSize: '14px', textDecoration: 'none' }}>KMCQ GmbH</Link>
-              <Link href="/careers" className="footer-link" style={{ color: '#9d9d9d', fontSize: '14px', textDecoration: 'none' }}>Career/Jobs</Link>
-              <Link href="/partners" className="footer-link" style={{ color: '#9d9d9d', fontSize: '14px', textDecoration: 'none' }}>Partners</Link>
-              <Link href="/contact" className="footer-link" style={{ color: '#9d9d9d', fontSize: '14px', textDecoration: 'none' }}>Contact Us</Link>
+              {footerItems.filter(i => i.section === 'about').map(item => (
+                <Link key={item.label} href={item.href} className="footer-link" style={{ color: '#9d9d9d', fontSize: '14px', textDecoration: 'none' }}>{item.label}</Link>
+              ))}
             </div>
           </div>
           {/* Second Column */}
           <div style={{ flex: 1, padding: '20px' }}>
             <p style={{ color: '#ffffff', fontSize: '18px', fontWeight: 'bold', marginBottom: '15px' }}>Products</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-              <Link href="/data-hosting" className="footer-link" style={{ color: '#9d9d9d', fontSize: '14px', textDecoration: 'none' }}>Data Hosting</Link>
-              <Link href="/wordpress" className="footer-link" style={{ color: '#9d9d9d', fontSize: '14px', textDecoration: 'none' }}>WordPress</Link>
-              <Link href="/joomla" className="footer-link" style={{ color: '#9d9d9d', fontSize: '14px', textDecoration: 'none' }}>Joomla</Link>
-              <Link href="/drupal" className="footer-link" style={{ color: '#9d9d9d', fontSize: '14px', textDecoration: 'none' }}>Drupal</Link>
-              <Link href="/vps" className="footer-link" style={{ color: '#9d9d9d', fontSize: '14px', textDecoration: 'none' }}>VPS</Link>
-              <Link href="/email-hosting" className="footer-link" style={{ color: '#9d9d9d', fontSize: '14px', textDecoration: 'none' }}>Email Hosting</Link>
+              {footerItems.filter(i => i.section === 'products').map(item => (
+                <Link key={item.label} href={item.href} className="footer-link" style={{ color: '#9d9d9d', fontSize: '14px', textDecoration: 'none' }}>{item.label}</Link>
+              ))}
             </div>
           </div>
           {/* Third Column */}
           <div style={{ flex: 1, padding: '20px' }}>
             <p style={{ color: '#ffffff', fontSize: '18px', fontWeight: 'bold', marginBottom: '15px' }}>Community</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-              <Link href="/community" className="footer-link" style={{ color: '#9d9d9d', fontSize: '14px', textDecoration: 'none' }}>KMCQ Community</Link>
+              {footerItems.filter(i => i.section === 'community').map(item => (
+                <Link key={item.label} href={item.href} className="footer-link" style={{ color: '#9d9d9d', fontSize: '14px', textDecoration: 'none' }}>{item.label}</Link>
+              ))}
             </div>
           </div>
           {/* Fourth Column */}
           <div style={{ flex: 1, padding: '20px' }}>
             <p style={{ color: '#ffffff', fontSize: '18px', fontWeight: 'bold', marginBottom: '15px' }}>Learn More</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-              <Link href="/faqs" className="footer-link" style={{ color: '#9d9d9d', fontSize: '14px', textDecoration: 'none' }}>FAQs</Link>
-              <Link href="/blog" target="_blank" rel="noopener noreferrer" className="footer-link" style={{ color: '#9d9d9d', fontSize: '14px', textDecoration: 'none' }}>Our Blog</Link>
-              <Link href="/contributor" className="footer-link" style={{ color: '#9d9d9d', fontSize: '14px', textDecoration: 'none' }}>Become a Contributor</Link>
+              {footerItems.filter(i => i.section === 'learn-more').map((item, idx, arr) => (
+                <Link key={item.label} href={item.href} target={item.label === 'Our Blog' ? '_blank' : undefined} rel={item.label === 'Our Blog' ? 'noopener noreferrer' : undefined} className="footer-link" style={{ color: '#9d9d9d', fontSize: '14px', textDecoration: 'none' }}>{item.label}</Link>
+              ))}
             </div>
           </div>
         </div>
@@ -286,7 +307,11 @@ export default function PageLayout({ children, title }: { children: React.ReactN
               <span style={{ color: '#9d9d9d', fontSize: '14px' }}>569 A. Apostol St. Brgy. Tungkop, Minglanilla, Central Visayas, Cebu 6046</span>
               <span style={{ color: '#9d9d9d', fontSize: '14px' }}>+639171229475</span>
               <span style={{ color: '#9d9d9d', fontSize: '14px' }}>support@kmcq.com</span>
-              <span style={{ color: '#9d9d9d', fontSize: '14px' }}><Link href="/terms" className="footer-link" style={{ color: '#9d9d9d', textDecoration: 'none' }}>Terms of Use</Link> | <Link href="/policy" className="footer-link" style={{ color: '#9d9d9d', textDecoration: 'none' }}>Policy</Link></span>
+              <span style={{ color: '#9d9d9d', fontSize: '14px' }}>
+                {footerItems.filter(i => i.section === 'legal').map((item, idx, arr) => (
+                  <span key={item.label}>{idx > 0 && <span> | </span>}<Link href={item.href} className="footer-link" style={{ color: '#9d9d9d', textDecoration: 'none' }}>{item.label}</Link></span>
+                ))}
+              </span>
             </div>
           </div>
           {/* Second Column - Empty */}
