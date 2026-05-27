@@ -1020,44 +1020,21 @@ export default function Home() {
           color: #ffffff !important;
         }
       `}</style>
-      {/* First Row - Four Columns */}
+      {/* First Row - Dynamic Columns */}
       <div className="footer-first-row" style={{ display: 'flex', flexDirection: 'row', gap: '40px', marginBottom: '40px', width: '65%', margin: '0 auto 40px auto' }}>
-        {/* First Column */}
-        <div style={{ flex: 1, padding: '20px' }}>
-          <p style={{ color: '#ffffff', fontSize: '18px', fontWeight: 'bold', marginBottom: '15px' }}>{getSectionLabel('about')}</p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-            {footerItems.filter(i => i.section === 'about').map(item => (
-              <Link key={item.label} href={item.href} className="footer-link" style={{ color: '#9d9d9d', fontSize: '14px', textDecoration: 'none' }}>{item.label}</Link>
-            ))}
+        {sections.filter(s => s.section_key !== 'legal').map(s => (
+          <div key={s.section_key} style={{ flex: 1, padding: '20px' }}>
+            <p style={{ color: '#ffffff', fontSize: '18px', fontWeight: 'bold', marginBottom: '15px' }}>{getSectionLabel(s.section_key)}</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+              {footerItems.filter(i => i.section === s.section_key).map(item => (
+                <Link key={item.label} href={item.href}
+                  target={item.label === 'Our Blog' ? '_blank' : undefined}
+                  rel={item.label === 'Our Blog' ? 'noopener noreferrer' : undefined}
+                  className="footer-link" style={{ color: '#9d9d9d', fontSize: '14px', textDecoration: 'none' }}>{item.label}</Link>
+              ))}
+            </div>
           </div>
-        </div>
-        {/* Second Column */}
-        <div style={{ flex: 1, padding: '20px' }}>
-          <p style={{ color: '#ffffff', fontSize: '18px', fontWeight: 'bold', marginBottom: '15px' }}>{getSectionLabel('products')}</p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-            {footerItems.filter(i => i.section === 'products').map(item => (
-              <Link key={item.label} href={item.href} className="footer-link" style={{ color: '#9d9d9d', fontSize: '14px', textDecoration: 'none' }}>{item.label}</Link>
-            ))}
-          </div>
-        </div>
-        {/* Third Column */}
-        <div style={{ flex: 1, padding: '20px' }}>
-          <p style={{ color: '#ffffff', fontSize: '18px', fontWeight: 'bold', marginBottom: '15px' }}>{getSectionLabel('community')}</p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-            {footerItems.filter(i => i.section === 'community').map(item => (
-              <Link key={item.label} href={item.href} className="footer-link" style={{ color: '#9d9d9d', fontSize: '14px', textDecoration: 'none' }}>{item.label}</Link>
-            ))}
-          </div>
-        </div>
-        {/* Fourth Column */}
-        <div style={{ flex: 1, padding: '20px' }}>
-          <p style={{ color: '#ffffff', fontSize: '18px', fontWeight: 'bold', marginBottom: '15px' }}>{getSectionLabel('learn-more')}</p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-            {footerItems.filter(i => i.section === 'learn-more').map(item => (
-              <Link key={item.label} href={item.href} target={item.label === 'Our Blog' ? '_blank' : undefined} rel={item.label === 'Our Blog' ? 'noopener noreferrer' : undefined} className="footer-link" style={{ color: '#9d9d9d', fontSize: '14px', textDecoration: 'none' }}>{item.label}</Link>
-            ))}
-          </div>
-        </div>
+        ))}
       </div>
       {/* Second Row - Three Columns */}
       <div className="footer-second-row" style={{ display: 'flex', flexDirection: 'row', gap: '40px', borderTop: '1px solid #1a2a4d', paddingTop: '30px', paddingLeft: '20px', paddingRight: '20px' }}>
