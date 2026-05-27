@@ -12,7 +12,8 @@ export default async function CustomPage({ params }: { params: Promise<{ slug: s
     return (
       <div style={{
         display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
-        minHeight: "100vh", backgroundColor: "#040f2d", color: "#ffffff", textAlign: "center", padding: "40px"
+        minHeight: "100vh", backgroundColor: "#040f2d", color: "#ffffff", textAlign: "center", padding: "40px",
+        position: "relative", zIndex: 1
       }}>
         <h1 style={{ fontSize: "clamp(60px, 15vw, 120px)", fontWeight: "bold", margin: "0 0 10px", color: "#28a745" }}>404</h1>
         <h2 style={{ fontSize: "clamp(20px, 4vw, 32px)", fontWeight: "bold", margin: "0 0 15px" }}>Page Not Found</h2>
