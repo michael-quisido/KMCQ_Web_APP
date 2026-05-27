@@ -8,16 +8,18 @@ interface PageHeaderProps {
   title: string;
 }
 
-export default function PageHeader({ slug, title }: PageHeaderProps) {
+export default function PageHeader({ slug, title: fallbackTitle }: PageHeaderProps) {
   const [headerImage, setHeaderImage] = useState("/header_images/tazz.jpg");
+  const [pageTitle, setPageTitle] = useState(fallbackTitle);
 
   useEffect(() => {
     fetch("/api/custom-pages")
       .then(r => r.json())
       .then((pages: { id: number; slug: string; title: string; header_image: string | null }[]) => {
         const page = pages.find((p) => p.slug === slug);
-        if (page?.header_image) {
-          setHeaderImage(page.header_image);
+        if (page) {
+          if (page.header_image) setHeaderImage(page.header_image);
+          if (page.title) setPageTitle(page.title);
         }
       });
   }, [slug]);
@@ -26,7 +28,7 @@ export default function PageHeader({ slug, title }: PageHeaderProps) {
     <div style={{ width: "100%", position: "relative" }}>
       <Image
         src={headerImage}
-        alt={`${title} Header`}
+        alt={`${pageTitle} Header`}
         width={1920}
         height={600}
         sizes="100vw"
@@ -40,7 +42,7 @@ export default function PageHeader({ slug, title }: PageHeaderProps) {
           color: "#ffffff", fontSize: "clamp(20px, 5vw, 37px)", fontWeight: "bold",
           fontFamily: "Arial, Helvetica, sans-serif", textShadow: "2px 2px 4px rgba(0,0,0,0.7)"
         }}>
-          {title}
+          {pageTitle}
         </h1>
       </div>
     </div>
