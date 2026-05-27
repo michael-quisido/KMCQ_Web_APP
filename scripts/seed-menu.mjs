@@ -7,6 +7,14 @@ const DB_CONFIG = {
   database: process.env.DB_NAME || "yournewdb",
 };
 
+const defaultSections = [
+  { section_key: "about", section_label: "About Us", sort_order: 0 },
+  { section_key: "products", section_label: "Products", sort_order: 1 },
+  { section_key: "community", section_label: "Community", sort_order: 2 },
+  { section_key: "learn-more", section_label: "Learn More", sort_order: 3 },
+  { section_key: "legal", section_label: "Terms & Policy", sort_order: 4 },
+];
+
 const defaultItems = [
   // Header nav
   { label: "Home", href: "/", sort_order: 0, location: "header", section: null },
@@ -40,7 +48,7 @@ const defaultItems = [
 async function seed() {
   const pool = mysql.createPool(DB_CONFIG);
 
-  // Check if columns exist, add migration if needed
+  // Migration: add location/section columns if missing
   try {
     await pool.execute("SELECT location FROM menu_items LIMIT 1");
   } catch {
@@ -49,6 +57,27 @@ async function seed() {
     await pool.execute("ALTER TABLE menu_items ADD COLUMN section VARCHAR(50) DEFAULT NULL");
   }
 
+  // Migration: create menu_sections table if missing
+  try {
+    await pool.execute("SELECT 1 FROM menu_sections LIMIT 1");
+  } catch {
+    console.log("Running migration: creating menu_sections table...");
+    await pool.execute(
+      "CREATE TABLE IF NOT EXISTS menu_sections (id INT AUTO_INCREMENT PRIMARY KEY, section_key VARCHAR(50) NOT NULL UNIQUE, section_label VARCHAR(100) NOT NULL, sort_order INT DEFAULT 0)"
+    );
+  }
+
+  // Seed sections
+  await pool.execute("DELETE FROM menu_sections");
+  for (const s of defaultSections) {
+    await pool.execute(
+      "INSERT INTO menu_sections (section_key, section_label, sort_order) VALUES (?, ?, ?)",
+      [s.section_key, s.section_label, s.sort_order]
+    );
+  }
+  console.log(`Seeded ${defaultSections.length} menu sections.`);
+
+  // Seed menu items
   const [rows] = await pool.execute("SELECT COUNT(*) AS cnt FROM menu_items");
   const count = rows[0].cnt;
   if (count > 0) {

@@ -6,30 +6,37 @@ interface MenuItem {
   id?: number; label: string; href: string; section?: string;
 }
 
+interface MenuSection {
+  id?: number; section_key: string; section_label: string;
+}
+
 const LOCATIONS = [
   { value: "header", label: "Header Nav" },
   { value: "footer", label: "Footer Links" },
 ];
 
-const SECTIONS = [
-  { value: "about", label: "About Us" },
-  { value: "products", label: "Products" },
-  { value: "community", label: "Community" },
-  { value: "learn-more", label: "Learn More" },
-  { value: "legal", label: "Terms & Policy" },
-];
-
 export default function MenuEditor() {
   const [items, setItems] = useState<MenuItem[]>([]);
+  const [sections, setSections] = useState<MenuSection[]>([]);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
   const [location, setLocation] = useState<"header" | "footer">("header");
+  const [newSectionKey, setNewSectionKey] = useState("");
+  const [newSectionLabel, setNewSectionLabel] = useState("");
+  const [editingSection, setEditingSection] = useState<string | null>(null);
+  const [editLabel, setEditLabel] = useState("");
 
   useEffect(() => {
     fetch(`/api/content/menu?location=${location}`)
       .then(r => r.json())
       .then(setItems);
   }, [location]);
+
+  useEffect(() => {
+    fetch("/api/content/menu-sections")
+      .then(r => r.json())
+      .then(setSections);
+  }, []);
 
   function updateItem(i: number, field: keyof MenuItem, value: string) {
     const updated = [...items];
@@ -41,7 +48,7 @@ export default function MenuEditor() {
 
   function addItem() {
     const newItem: MenuItem = { label: "", href: "" };
-    if (location === "footer") newItem.section = "about";
+    if (location === "footer" && sections.length > 0) newItem.section = sections[0].section_key;
     setItems([...items, newItem]);
   }
 
@@ -66,6 +73,43 @@ export default function MenuEditor() {
     });
     setMessage((await res.json()).message);
     setSaving(false);
+  }
+
+  async function addSection() {
+    if (!newSectionKey.trim() || !newSectionLabel.trim()) return;
+    const updated = [...sections, { section_key: newSectionKey.trim(), section_label: newSectionLabel.trim() }];
+    setSections(updated);
+    await fetch("/api/content/menu-sections", {
+      method: "PUT", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ sections: updated }),
+    });
+    setNewSectionKey("");
+    setNewSectionLabel("");
+  }
+
+  async function removeSection(key: string) {
+    const updated = sections.filter(s => s.section_key !== key);
+    setSections(updated);
+    await fetch("/api/content/menu-sections", {
+      method: "PUT", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ sections: updated }),
+    });
+  }
+
+  function startEditSection(s: MenuSection) {
+    setEditingSection(s.section_key);
+    setEditLabel(s.section_label);
+  }
+
+  async function saveEditSection(key: string) {
+    if (!editLabel.trim()) return;
+    const updated = sections.map(s => s.section_key === key ? { ...s, section_label: editLabel.trim() } : s);
+    setSections(updated);
+    setEditingSection(null);
+    await fetch("/api/content/menu-sections", {
+      method: "PUT", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ sections: updated }),
+    });
   }
 
   return (
@@ -100,10 +144,10 @@ export default function MenuEditor() {
           <input placeholder="URL (e.g. / or /about)" value={item.href} onChange={(e) => updateItem(i, "href", e.target.value)}
             style={{ padding: 8, border: "1px solid #ddd", borderRadius: 4, flex: 1.5 }} />
           {location === "footer" && (
-            <select value={item.section || "about"} onChange={(e) => updateItem(i, "section", e.target.value)}
+            <select value={item.section || ""} onChange={(e) => updateItem(i, "section", e.target.value)}
               style={{ padding: 8, border: "1px solid #ddd", borderRadius: 4 }}>
-              {SECTIONS.map((s) => (
-                <option key={s.value} value={s.value}>{s.label}</option>
+              {sections.map((s) => (
+                <option key={s.section_key} value={s.section_key}>{s.section_label}</option>
               ))}
             </select>
           )}
@@ -112,7 +156,7 @@ export default function MenuEditor() {
           <button onClick={() => removeItem(i)} style={{ color: "red", background: "none", border: "none", cursor: "pointer" }}>✕</button>
         </div>
       ))}
-      <div style={{ display: "flex", gap: 10, marginTop: 20 }}>
+      <div style={{ display: "flex", gap: 10, marginTop: 20, marginBottom: 30 }}>
         <button onClick={addItem} style={{ padding: "10px 20px", background: "#28a745", color: "white", border: "none", borderRadius: 6, cursor: "pointer" }}>Add Item</button>
         <button onClick={handleSave} disabled={saving}
           style={{ padding: "10px 20px", background: "#040f2d", color: "white", border: "none", borderRadius: 6, cursor: "pointer" }}>
@@ -120,6 +164,46 @@ export default function MenuEditor() {
         </button>
       </div>
       {message && <p style={{ marginTop: 10 }}>{message}</p>}
+
+      {/* Footer Categories Management */}
+      {location === "footer" && (
+        <div style={{ marginTop: 20, borderTop: "2px solid #040f2d", paddingTop: 20 }}>
+          <h2 style={{ fontSize: 18, fontWeight: "bold", marginBottom: 15 }}>Footer Categories</h2>
+          <p style={{ color: "#666", marginBottom: 15, fontSize: 14 }}>Add, rename, or remove categories (columns) that footer links are grouped under.</p>
+          {sections.map((s) => (
+            <div key={s.section_key} style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 8, padding: 10, background: "white", border: "1px solid #ddd", borderRadius: 6 }}>
+              {editingSection === s.section_key ? (
+                <input value={editLabel} onChange={(e) => setEditLabel(e.target.value)}
+                  onKeyDown={(e) => { if (e.key === "Enter") saveEditSection(s.section_key); }}
+                  style={{ padding: 6, border: "1px solid #040f2d", borderRadius: 4, flex: 1, fontSize: 14 }}
+                  autoFocus />
+              ) : (
+                <span style={{ flex: 1, fontSize: 14, fontWeight: 600 }}>
+                  <code style={{ background: "#eee", padding: "2px 6px", borderRadius: 3, fontSize: 12, marginRight: 8 }}>{s.section_key}</code>
+                  {s.section_label}
+                </span>
+              )}
+              {editingSection === s.section_key ? (
+                <button onClick={() => saveEditSection(s.section_key)} style={{ padding: "4px 12px", background: "#040f2d", color: "white", border: "none", borderRadius: 4, cursor: "pointer", fontSize: 13 }}>Save</button>
+              ) : (
+                <button onClick={() => startEditSection(s)} style={{ background: "none", border: "1px solid #ddd", borderRadius: 4, padding: "4px 8px", cursor: "pointer", fontSize: 13 }}>Rename</button>
+              )}
+              <button onClick={() => removeSection(s.section_key)} style={{ color: "red", background: "none", border: "none", cursor: "pointer", fontSize: 13 }}>✕</button>
+            </div>
+          ))}
+          {/* Add new category */}
+          <div style={{ display: "flex", gap: 10, alignItems: "center", marginTop: 15, padding: 12, background: "#f9f9f9", border: "1px dashed #aaa", borderRadius: 6 }}>
+            <input placeholder="Key (e.g. pricing)" value={newSectionKey} onChange={(e) => setNewSectionKey(e.target.value.replace(/[^a-z0-9-]/g, ""))}
+              style={{ padding: 8, border: "1px solid #ddd", borderRadius: 4, flex: 0.8, fontSize: 14 }} />
+            <input placeholder="Label (e.g. Pricing)" value={newSectionLabel} onChange={(e) => setNewSectionLabel(e.target.value)}
+              style={{ padding: 8, border: "1px solid #ddd", borderRadius: 4, flex: 1, fontSize: 14 }} />
+            <button onClick={addSection} disabled={!newSectionKey.trim() || !newSectionLabel.trim()}
+              style={{ padding: "8px 16px", background: "#28a745", color: "white", border: "none", borderRadius: 4, cursor: "pointer", whiteSpace: "nowrap" }}>
+              Add Category
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

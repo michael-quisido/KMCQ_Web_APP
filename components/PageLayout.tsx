@@ -17,6 +17,13 @@ export default function PageLayout({ children, title }: { children: React.ReactN
     { label: "Blog", href: "/blog" },
     { label: "About Us", href: "/#about-us" },
   ];
+  const DEFAULT_SECTIONS = [
+    { section_key: "about", section_label: "About Us" },
+    { section_key: "products", section_label: "Products" },
+    { section_key: "community", section_label: "Community" },
+    { section_key: "learn-more", section_label: "Learn More" },
+    { section_key: "legal", section_label: "Terms & Policy" },
+  ];
   const DEFAULT_FOOTER_ITEMS: { label: string; href: string; section: string }[] = [
     { label: "KMCQ GmbH", href: "/about", section: "about" },
     { label: "Career/Jobs", href: "/careers", section: "about" },
@@ -37,6 +44,11 @@ export default function PageLayout({ children, title }: { children: React.ReactN
   ];
   const [menuItems, setMenuItems] = useState(DEFAULT_MENU_ITEMS);
   const [footerItems, setFooterItems] = useState(DEFAULT_FOOTER_ITEMS);
+  const [sections, setSections] = useState(DEFAULT_SECTIONS);
+
+  function getSectionLabel(key: string): string {
+    return sections.find(s => s.section_key === key)?.section_label || key;
+  }
 
   useEffect(() => {
     fetch("/api/content/menu")
@@ -46,6 +58,10 @@ export default function PageLayout({ children, title }: { children: React.ReactN
     fetch("/api/content/menu?location=footer")
       .then(r => r.json())
       .then(data => { if (data && data.length > 0) setFooterItems(data); })
+      .catch(() => {});
+    fetch("/api/content/menu-sections")
+      .then(r => r.json())
+      .then(data => { if (data && data.length > 0) setSections(data); })
       .catch(() => {});
   }, []);
 
@@ -253,7 +269,7 @@ export default function PageLayout({ children, title }: { children: React.ReactN
         <div className="footer-first-row" style={{ display: 'flex', flexDirection: 'row', gap: '40px', marginBottom: '40px', width: '65%', margin: '0 auto 40px auto' }}>
           {/* First Column */}
           <div style={{ flex: 1, padding: '20px' }}>
-            <p style={{ color: '#ffffff', fontSize: '18px', fontWeight: 'bold', marginBottom: '15px' }}>About Us</p>
+            <p style={{ color: '#ffffff', fontSize: '18px', fontWeight: 'bold', marginBottom: '15px' }}>{getSectionLabel('about')}</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
               {footerItems.filter(i => i.section === 'about').map(item => (
                 <Link key={item.label} href={item.href} className="footer-link" style={{ color: '#9d9d9d', fontSize: '14px', textDecoration: 'none' }}>{item.label}</Link>
@@ -262,7 +278,7 @@ export default function PageLayout({ children, title }: { children: React.ReactN
           </div>
           {/* Second Column */}
           <div style={{ flex: 1, padding: '20px' }}>
-            <p style={{ color: '#ffffff', fontSize: '18px', fontWeight: 'bold', marginBottom: '15px' }}>Products</p>
+            <p style={{ color: '#ffffff', fontSize: '18px', fontWeight: 'bold', marginBottom: '15px' }}>{getSectionLabel('products')}</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
               {footerItems.filter(i => i.section === 'products').map(item => (
                 <Link key={item.label} href={item.href} className="footer-link" style={{ color: '#9d9d9d', fontSize: '14px', textDecoration: 'none' }}>{item.label}</Link>
@@ -271,7 +287,7 @@ export default function PageLayout({ children, title }: { children: React.ReactN
           </div>
           {/* Third Column */}
           <div style={{ flex: 1, padding: '20px' }}>
-            <p style={{ color: '#ffffff', fontSize: '18px', fontWeight: 'bold', marginBottom: '15px' }}>Community</p>
+            <p style={{ color: '#ffffff', fontSize: '18px', fontWeight: 'bold', marginBottom: '15px' }}>{getSectionLabel('community')}</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
               {footerItems.filter(i => i.section === 'community').map(item => (
                 <Link key={item.label} href={item.href} className="footer-link" style={{ color: '#9d9d9d', fontSize: '14px', textDecoration: 'none' }}>{item.label}</Link>
@@ -280,7 +296,7 @@ export default function PageLayout({ children, title }: { children: React.ReactN
           </div>
           {/* Fourth Column */}
           <div style={{ flex: 1, padding: '20px' }}>
-            <p style={{ color: '#ffffff', fontSize: '18px', fontWeight: 'bold', marginBottom: '15px' }}>Learn More</p>
+            <p style={{ color: '#ffffff', fontSize: '18px', fontWeight: 'bold', marginBottom: '15px' }}>{getSectionLabel('learn-more')}</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
               {footerItems.filter(i => i.section === 'learn-more').map((item, idx, arr) => (
                 <Link key={item.label} href={item.href} target={item.label === 'Our Blog' ? '_blank' : undefined} rel={item.label === 'Our Blog' ? 'noopener noreferrer' : undefined} className="footer-link" style={{ color: '#9d9d9d', fontSize: '14px', textDecoration: 'none' }}>{item.label}</Link>
