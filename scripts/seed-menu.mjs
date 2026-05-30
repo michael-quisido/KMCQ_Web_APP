@@ -92,6 +92,22 @@ async function seed() {
     );
   }
 
+  // Seed hero content
+  const [heroRows] = await pool.execute("SELECT COUNT(*) AS cnt FROM hero_content");
+  if (heroRows[0].cnt === 0) {
+    await pool.execute(
+      "INSERT INTO hero_content (title, subtitle, content) VALUES (?, ?, ?)",
+      [
+        "Unlock Your Digital Future.",
+        "Seamless, Secure, Scalable Cloud Solutions.",
+        "<p style='color:#ffffff;font-size:18px;line-height:1.8;text-align:center;max-width:700px;margin:0 auto'>KMCQ GmbH provides enterprise-grade cloud infrastructure and VPS solutions designed for developers, businesses, and organizations that demand performance, reliability, and complete control over their digital infrastructure.</p>"
+      ]
+    );
+    console.log("Seeded hero content.");
+  } else {
+    console.log("hero_content already has data, skipping.");
+  }
+
   console.log(`Seeded ${defaultItems.length} menu items (header + footer).`);
   await pool.end();
 }

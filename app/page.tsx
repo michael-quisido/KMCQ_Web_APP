@@ -52,6 +52,8 @@ export default function Home() {
   const [reviews, setReviews] = useState<{ name: string; image: string; role: string; industry: string; text: string; rating: number }[]>([]);
   const [aboutSections, setAboutSections] = useState<{ section_name: string; title: string; content: string }[]>([]);
   const [socialLinks, setSocialLinks] = useState<{ platform: string; url: string; icon: string }[]>([]);
+  const [heroTitle, setHeroTitle] = useState("Unlock Your Digital Future.");
+  const [heroSubtitle, setHeroSubtitle] = useState("Seamless, Secure, Scalable Cloud Solutions.");
 
   const iconMap: Record<string, React.ReactNode> = {
     MdStorage: <MdStorage size={70} color="#040f2d" />,
@@ -101,6 +103,13 @@ export default function Home() {
     fetch("/api/content/menu-sections")
       .then(r => r.json())
       .then(data => { if (data && data.length > 0) setSections(data); })
+      .catch(() => {});
+    fetch("/api/content/hero")
+      .then(r => r.json())
+      .then(data => {
+        if (data.title) setHeroTitle(data.title);
+        if (data.subtitle) setHeroSubtitle(data.subtitle);
+      })
       .catch(() => {});
   }, []);
 
@@ -587,13 +596,13 @@ export default function Home() {
       <div className="flex flex-1 flex-col items-center justify-center" style={{ marginTop: '340px' }}>
         <h1 className="font-ubuntu text-white text-[35px] sm:text-[50px] md:text-[70px] font-bold text-center tracking-wide">
           <TypewriterText 
-            text="Unlock Your Digital Future." 
+            text={heroTitle}
             delay={3000}
           />
         </h1>
         <p className="font-ubuntu text-white text-[21px] text-center mt-4">
           <TypewriterText 
-            text="Seamless, Secure, Scalable Cloud Solutions." 
+            text={heroSubtitle}
             delay={5160}
           />
         </p>
