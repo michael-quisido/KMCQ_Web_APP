@@ -7,7 +7,7 @@ import { FaLinkedin, FaFacebook, FaInstagram, FaYoutube, FaSearch, FaBars, FaTim
 import { SiGithub, SiBluesky, SiWordpress, SiJoomla, SiDrupal } from "react-icons/si";
 import { MdSettings, MdStorage, MdEmail, MdDns, MdCloud, MdComputer, MdWeb, MdDevices, MdSecurity, MdSpeed, MdLanguage, MdExtension, MdVisibility, MdAttachMoney } from "react-icons/md";
 
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 export default function Home() {
   const DEFAULT_MENU_ITEMS = [
@@ -48,6 +48,7 @@ export default function Home() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [products, setProducts] = useState<{ name: string; icon: string; description: string }[]>([]);
+  const [hoveredProduct, setHoveredProduct] = useState<number | null>(null);
   const [features, setFeatures] = useState<{ title: string; icon: string; content: string }[]>([]);
   const [reviews, setReviews] = useState<{ name: string; image: string; role: string; industry: string; text: string; rating: number }[]>([]);
   const [aboutSections, setAboutSections] = useState<{ section_name: string; title: string; content: string }[]>([]);
@@ -73,6 +74,28 @@ export default function Home() {
     MdVisibility: <MdVisibility size={70} color="#040f2d" />,
     MdAttachMoney: <MdAttachMoney size={70} color="#040f2d" />,
   };
+
+  function renderProductIcon(name: string, color: string) {
+    const icons: Record<string, React.ReactNode> = {
+      MdStorage: <MdStorage size={70} color={color} />,
+      SiWordpress: <SiWordpress size={70} color={color} />,
+      MdEmail: <MdEmail size={70} color={color} />,
+      MdDns: <MdDns size={70} color={color} />,
+      SiJoomla: <SiJoomla size={70} color={color} />,
+      SiDrupal: <SiDrupal size={70} color={color} />,
+      MdCloud: <MdCloud size={70} color={color} />,
+      MdComputer: <MdComputer size={70} color={color} />,
+      MdWeb: <MdWeb size={70} color={color} />,
+      MdDevices: <MdDevices size={70} color={color} />,
+      MdSecurity: <MdSecurity size={70} color={color} />,
+      MdSpeed: <MdSpeed size={70} color={color} />,
+      MdLanguage: <MdLanguage size={70} color={color} />,
+      MdExtension: <MdExtension size={70} color={color} />,
+      MdVisibility: <MdVisibility size={70} color={color} />,
+      MdAttachMoney: <MdAttachMoney size={70} color={color} />,
+    };
+    return icons[name] || <MdStorage size={70} color={color} />;
+  }
 
   function renderSocialIcon(name: string, size: number, color: string) {
     const icons: Record<string, React.ReactNode> = {
@@ -707,9 +730,23 @@ export default function Home() {
         {/* Second Column - Dynamic Products */}
         <div className="hosting-col-77 flex flex-col" style={{ gap: '20px' }}>
           {products.map((p, i) => (
-            <div key={i} className="flex items-center" style={{ padding: '25px', backgroundColor: '#ededed', borderRadius: '10px', borderTopWidth: '25px', borderBottomWidth: '25px', border: '1px solid black', opacity: 0, animation: 'flyInFromRight 1s ease-out forwards', animationDelay: `${i * 0.2}s`, marginTop: '20px', marginBottom: '20px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.25)' }}>
-              {iconMap[p.icon] || <MdStorage size={70} color="#040f2d" />}
-              <span style={{ color: '#040f2d', fontSize: '24px', fontWeight: 'bold', marginLeft: '15px', fontFamily: 'Arial, Helvetica, sans-serif' }}>
+            <div key={i} className="flex items-center" style={{
+              padding: '25px', backgroundColor: hoveredProduct === i ? '#000616' : '#ededed',
+              borderRadius: '10px', borderTopWidth: '25px', borderBottomWidth: '25px', border: '1px solid black',
+              opacity: 0, animation: 'flyInFromRight 1s ease-out forwards', animationDelay: `${i * 0.2}s`,
+              marginTop: '20px', marginBottom: '20px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.25)',
+              transition: 'background-color 0.3s ease',
+              cursor: 'pointer',
+            }}
+              onMouseEnter={() => setHoveredProduct(i)}
+              onMouseLeave={() => setHoveredProduct(null)}
+            >
+              {renderProductIcon(p.icon, hoveredProduct === i ? '#ffffff' : '#040f2d')}
+              <span style={{
+                color: hoveredProduct === i ? '#ffffff' : '#040f2d', fontSize: '24px', fontWeight: 'bold',
+                marginLeft: '15px', fontFamily: 'Arial, Helvetica, sans-serif',
+                transition: 'color 0.3s ease',
+              }}>
                 {p.name}
               </span>
             </div>
