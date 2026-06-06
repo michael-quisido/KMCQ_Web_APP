@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import RichTextEditor from "@/components/admin/RichTextEditor";
 
 interface Product {
-  id?: number; name: string; icon: string; description: string; content: string;
+  id?: number; name: string; icon: string; description: string; content: string; url: string;
 }
 
 export default function ProductsEditor() {
@@ -23,7 +23,7 @@ export default function ProductsEditor() {
   }
 
   function addProduct() {
-    setProducts([...products, { name: "", icon: "", description: "", content: "" }]);
+    setProducts([...products, { name: "", icon: "", description: "", content: "", url: "" }]);
   }
 
   function removeProduct(i: number) {
@@ -54,6 +54,8 @@ export default function ProductsEditor() {
           <input placeholder="Icon name" value={p.icon} onChange={(e) => updateProduct(i, "icon", e.target.value)}
             style={{ width: "100%", padding: 8, marginBottom: 8, border: "1px solid #ddd", borderRadius: 4 }} />
           <input placeholder="Short description" value={p.description} onChange={(e) => updateProduct(i, "description", e.target.value)}
+            style={{ width: "100%", padding: 8, marginBottom: 8, border: "1px solid #ddd", borderRadius: 4 }} />
+          <input placeholder="URL (e.g. /data-hosting)" value={p.url} onChange={(e) => updateProduct(i, "url", e.target.value)}
             style={{ width: "100%", padding: 8, marginBottom: 8, border: "1px solid #ddd", borderRadius: 4 }} />
           <RichTextEditor content={p.content} onChange={(v) => updateProduct(i, "content", v)} />
         </div>

@@ -47,7 +47,7 @@ export default function Home() {
   const [sections, setSections] = useState(DEFAULT_SECTIONS);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [products, setProducts] = useState<{ name: string; icon: string; description: string }[]>([]);
+  const [products, setProducts] = useState<{ name: string; icon: string; description: string; url: string }[]>([]);
   const [hoveredProduct, setHoveredProduct] = useState<number | null>(null);
   const [features, setFeatures] = useState<{ title: string; icon: string; content: string }[]>([]);
   const [reviews, setReviews] = useState<{ name: string; image: string; role: string; industry: string; text: string; rating: number }[]>([]);
@@ -730,26 +730,28 @@ export default function Home() {
         {/* Second Column - Dynamic Products */}
         <div className="hosting-col-77 flex flex-col" style={{ gap: '20px' }}>
           {products.map((p, i) => (
-            <div key={i} className="flex items-center" style={{
-              padding: '25px', backgroundColor: hoveredProduct === i ? '#000616' : '#ededed',
-              borderRadius: '10px', borderTopWidth: '25px', borderBottomWidth: '25px', border: '1px solid black',
-              opacity: 0, animation: 'flyInFromRight 1s ease-out forwards', animationDelay: `${i * 0.2}s`,
-              marginTop: '20px', marginBottom: '20px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.25)',
-              transition: 'background-color 0.3s ease',
-              cursor: 'pointer',
-            }}
-              onMouseEnter={() => setHoveredProduct(i)}
-              onMouseLeave={() => setHoveredProduct(null)}
-            >
-              {renderProductIcon(p.icon, hoveredProduct === i ? '#ffffff' : '#040f2d')}
-              <span style={{
-                color: hoveredProduct === i ? '#ffffff' : '#040f2d', fontSize: '24px', fontWeight: 'bold',
-                marginLeft: '15px', fontFamily: 'Arial, Helvetica, sans-serif',
-                transition: 'color 0.3s ease',
-              }}>
-                {p.name}
-              </span>
-            </div>
+            <Link key={i} href={p.url || '#'} style={{ textDecoration: 'none' }}>
+              <div className="flex items-center" style={{
+                padding: '25px', backgroundColor: hoveredProduct === i ? '#000616' : '#ededed',
+                borderRadius: '10px', borderTopWidth: '25px', borderBottomWidth: '25px', border: '1px solid black',
+                opacity: 0, animation: 'flyInFromRight 1s ease-out forwards', animationDelay: `${i * 0.2}s`,
+                marginTop: '20px', marginBottom: '20px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.25)',
+                transition: 'background-color 0.3s ease',
+                cursor: 'pointer',
+              }}
+                onMouseEnter={() => setHoveredProduct(i)}
+                onMouseLeave={() => setHoveredProduct(null)}
+              >
+                {renderProductIcon(p.icon, hoveredProduct === i ? '#ffffff' : '#040f2d')}
+                <span style={{
+                  color: hoveredProduct === i ? '#ffffff' : '#040f2d', fontSize: '24px', fontWeight: 'bold',
+                  marginLeft: '15px', fontFamily: 'Arial, Helvetica, sans-serif',
+                  transition: 'color 0.3s ease',
+                }}>
+                  {p.name}
+                </span>
+              </div>
+            </Link>
           ))}
         </div>
       </div>

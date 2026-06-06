@@ -15,8 +15,8 @@ export async function PUT(req: NextRequest) {
   const { products } = await req.json();
   await query("DELETE FROM products");
   for (let i = 0; i < products.length; i++) {
-    await query("INSERT INTO products (name, icon, description, content, sort_order) VALUES (?, ?, ?, ?, ?)",
-      [products[i].name, products[i].icon || "", products[i].description || "", products[i].content || "", i]);
+    await query("INSERT INTO products (name, icon, description, content, url, sort_order) VALUES (?, ?, ?, ?, ?, ?)",
+      [products[i].name, products[i].icon || "", products[i].description || "", products[i].content || "", products[i].url || "", i]);
   }
   return NextResponse.json({ message: "Saved" });
 }

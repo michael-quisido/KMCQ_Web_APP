@@ -92,6 +92,20 @@ async function seed() {
     );
   }
 
+  // Migration: add url column to products if missing
+  try {
+    await pool.execute("SELECT url FROM products LIMIT 1");
+  } catch {
+    console.log("Running migration: adding url column to products...");
+    await pool.execute("ALTER TABLE products ADD COLUMN url VARCHAR(500) DEFAULT NULL AFTER content");
+  }
+
+  // Seed product URLs for existing products that have empty url
+  await pool.execute("UPDATE products SET url = '/data-hosting' WHERE name LIKE '%Data Web Hosting%' AND (url IS NULL OR url = '')");
+  await pool.execute("UPDATE products SET url = '/wordpress' WHERE name LIKE '%WordPress%' AND (url IS NULL OR url = '')");
+  await pool.execute("UPDATE products SET url = '/email-hosting' WHERE name LIKE '%Email Hosting%' AND (url IS NULL OR url = '')");
+  await pool.execute("UPDATE products SET url = '/vps' WHERE name LIKE '%VPS%' AND (url IS NULL OR url = '')");
+
   // Seed hero content
   const [heroRows] = await pool.execute("SELECT COUNT(*) AS cnt FROM hero_content");
   if (heroRows[0].cnt === 0) {
