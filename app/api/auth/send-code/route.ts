@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { query, getConnection } from "@/lib/db";
+import { sendEmail } from "@/lib/mail";
 import type { RowDataPacket } from "mysql2/promise";
 
 export async function POST(req: NextRequest) {
@@ -26,7 +27,7 @@ export async function POST(req: NextRequest) {
       console.log("Auto-created admins table.");
     }
 
-    const users = await query("SELECT id FROM admins WHERE email = ?", [email]) as RowDataPacket[];
+    const users = await query("SELECT id, username FROM admins WHERE email = ?", [email]) as RowDataPacket[];
     if (users.length === 0) return NextResponse.json({ error: "Email not found" }, { status: 404 });
 
     const code = Math.floor(100000 + Math.random() * 900000).toString();
@@ -34,7 +35,22 @@ export async function POST(req: NextRequest) {
 
     console.log(`[ADMIN AUTH] Verification code for ${email}: ${code}`);
 
-    return NextResponse.json({ message: "Code sent", code });
+    const sent = await sendEmail(
+      email,
+      "KMCQ Admin - Verification Code",
+      `<div style="font-family:Arial,sans-serif;padding:30px;background:#040f2d;color:white;border-radius:8px;max-width:500px">
+        <h2 style="margin:0 0 10px;color:#28a745">KMCQ Admin Login</h2>
+        <p>Your verification code is:</p>
+        <div style="font-size:36px;font-weight:bold;letter-spacing:8px;text-align:center;padding:20px;background:rgba(255,255,255,0.1);border-radius:8px;margin:15px 0">${code}</div>
+        <p style="color:#9d9d9d;font-size:14px">This code expires after use. Never share this code.</p>
+      </div>`
+    );
+
+    if (sent) {
+      return NextResponse.json({ message: "Code sent to " + email });
+    } else {
+      return NextResponse.json({ message: "Code sent", code });
+    }
   } catch (err) {
     console.error("send-code error:", err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });

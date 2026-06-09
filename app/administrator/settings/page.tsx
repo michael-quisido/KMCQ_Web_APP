@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 
 export default function SettingsPage() {
-  const [activeTab, setActiveTab] = useState<"credentials" | "social">("credentials");
+  const [activeTab, setActiveTab] = useState<"credentials" | "social" | "email">("credentials");
 
   return (
     <div>
@@ -13,10 +13,13 @@ export default function SettingsPage() {
           style={{ padding: "8px 16px", background: activeTab === "credentials" ? "#040f2d" : "#ddd", color: activeTab === "credentials" ? "white" : "black", border: "none", borderRadius: 6, cursor: "pointer" }}>Credentials</button>
         <button onClick={() => setActiveTab("social")}
           style={{ padding: "8px 16px", background: activeTab === "social" ? "#040f2d" : "#ddd", color: activeTab === "social" ? "white" : "black", border: "none", borderRadius: 6, cursor: "pointer" }}>Social Links</button>
+        <button onClick={() => setActiveTab("email")}
+          style={{ padding: "8px 16px", background: activeTab === "email" ? "#040f2d" : "#ddd", color: activeTab === "email" ? "white" : "black", border: "none", borderRadius: 6, cursor: "pointer" }}>Email (SMTP)</button>
       </div>
 
       {activeTab === "credentials" && <CredentialsForm />}
       {activeTab === "social" && <SocialLinksForm />}
+      {activeTab === "email" && <EmailForm />}
     </div>
   );
 }
@@ -54,6 +57,59 @@ function CredentialsForm() {
       <button onClick={handleSave} disabled={saving}
         style={{ padding: "12px 24px", background: "#040f2d", color: "white", border: "none", borderRadius: 6, cursor: "pointer" }}>
         {saving ? "Saving..." : "Update Credentials"}
+      </button>
+      {message && <p style={{ marginTop: 10 }}>{message}</p>}
+    </div>
+  );
+}
+
+function EmailForm() {
+  const [smtpHost, setSmtpHost] = useState("");
+  const [smtpPort, setSmtpPort] = useState("587");
+  const [smtpUser, setSmtpUser] = useState("");
+  const [smtpPass, setSmtpPass] = useState("");
+  const [smtpFrom, setSmtpFrom] = useState("");
+  const [message, setMessage] = useState("");
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/content/settings/email").then(r => r.json()).then(data => {
+      if (data.smtp_host !== undefined) setSmtpHost(data.smtp_host);
+      if (data.smtp_port !== undefined) setSmtpPort(data.smtp_port);
+      if (data.smtp_user !== undefined) setSmtpUser(data.smtp_user);
+      if (data.smtp_pass !== undefined) setSmtpPass(data.smtp_pass);
+      if (data.smtp_from !== undefined) setSmtpFrom(data.smtp_from);
+    });
+  }, []);
+
+  async function handleSave() {
+    setSaving(true); setMessage("");
+    const res = await fetch("/api/content/settings/email", {
+      method: "PUT", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ smtp_host: smtpHost, smtp_port: smtpPort, smtp_user: smtpUser, smtp_pass: smtpPass, smtp_from: smtpFrom }),
+    });
+    setMessage((await res.json()).message);
+    setSaving(false);
+  }
+
+  return (
+    <div style={{ maxWidth: 500 }}>
+      <p style={{ marginBottom: 15, color: "#666", fontSize: 14 }}>
+        Configure SMTP to send verification codes to admin email addresses.
+      </p>
+      <input placeholder="SMTP Host (e.g. smtp.gmail.com)" value={smtpHost} onChange={(e) => setSmtpHost(e.target.value)}
+        style={{ width: "100%", padding: 10, marginBottom: 10, border: "1px solid #ddd", borderRadius: 6 }} />
+      <input placeholder="SMTP Port (e.g. 587)" value={smtpPort} onChange={(e) => setSmtpPort(e.target.value)}
+        style={{ width: "100%", padding: 10, marginBottom: 10, border: "1px solid #ddd", borderRadius: 6 }} />
+      <input placeholder="SMTP Username" value={smtpUser} onChange={(e) => setSmtpUser(e.target.value)}
+        style={{ width: "100%", padding: 10, marginBottom: 10, border: "1px solid #ddd", borderRadius: 6 }} />
+      <input type="password" placeholder="SMTP Password" value={smtpPass} onChange={(e) => setSmtpPass(e.target.value)}
+        style={{ width: "100%", padding: 10, marginBottom: 10, border: "1px solid #ddd", borderRadius: 6 }} />
+      <input placeholder="From email (e.g. noreply@kmcq-gmbh.com)" value={smtpFrom} onChange={(e) => setSmtpFrom(e.target.value)}
+        style={{ width: "100%", padding: 10, marginBottom: 10, border: "1px solid #ddd", borderRadius: 6 }} />
+      <button onClick={handleSave} disabled={saving}
+        style={{ padding: "12px 24px", background: "#040f2d", color: "white", border: "none", borderRadius: 6, cursor: "pointer" }}>
+        {saving ? "Saving..." : "Save SMTP Settings"}
       </button>
       {message && <p style={{ marginTop: 10 }}>{message}</p>}
     </div>
