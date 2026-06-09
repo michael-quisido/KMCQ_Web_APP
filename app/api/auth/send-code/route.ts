@@ -1,11 +1,30 @@
 import { NextRequest, NextResponse } from "next/server";
-import { query } from "@/lib/db";
+import { query, getConnection } from "@/lib/db";
 import type { RowDataPacket } from "mysql2/promise";
 
 export async function POST(req: NextRequest) {
   try {
     const { email } = await req.json();
     if (!email) return NextResponse.json({ error: "Email required" }, { status: 400 });
+
+    // Ensure admins table exists
+    try {
+      await query("SELECT 1 FROM admins LIMIT 1");
+    } catch {
+      const conn = await getConnection();
+      await conn.execute(`
+        CREATE TABLE IF NOT EXISTS admins (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          email VARCHAR(255) NOT NULL UNIQUE,
+          username VARCHAR(100) NOT NULL,
+          password_hash VARCHAR(255) NOT NULL,
+          code VARCHAR(6),
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+      `);
+      conn.release();
+      console.log("Auto-created admins table.");
+    }
 
     const users = await query("SELECT id FROM admins WHERE email = ?", [email]) as RowDataPacket[];
     if (users.length === 0) return NextResponse.json({ error: "Email not found" }, { status: 404 });
