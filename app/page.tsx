@@ -1102,7 +1102,7 @@ export default function Home() {
             <span style={{ color: '#9d9d9d', fontSize: '14px' }}>All rights reserved.</span>
             <span style={{ color: '#9d9d9d', fontSize: '14px' }}>569 A. Apostol St. Brgy. Tungkop, Minglanilla, Central Visayas, Cebu 6046</span>
             <span style={{ color: '#9d9d9d', fontSize: '14px' }}>+639171229475</span>
-            <span style={{ color: '#9d9d9d', fontSize: '14px' }}>support@kmcq.com</span>
+            <span style={{ color: '#9d9d9d', fontSize: '14px' }}>support@kmcq-gmbh.com</span>
             <span style={{ color: '#9d9d9d', fontSize: '14px' }}>
               {footerItems.filter(i => i.section === 'legal').map((item, idx, arr) => (
                 <span key={item.label}>{idx > 0 && <span> | </span>}<Link href={item.href} className="footer-link" style={{ color: '#9d9d9d', textDecoration: 'none' }}>{item.label}</Link></span>
