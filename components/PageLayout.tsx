@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function PageLayout({ children, title }: { children: React.ReactNode; title?: string }) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [signinHovered, setSigninHovered] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const DEFAULT_MENU_ITEMS = [
     { label: "Home", href: "/" },
@@ -105,6 +106,24 @@ export default function PageLayout({ children, title }: { children: React.ReactN
                     <FaSearch size={16} color="#666" />
                   </button>
                 </form>
+                <Link href="/administrator" style={{ textDecoration: 'none' }}>
+                  <button
+                    style={{
+                      height: 30, width: 115, backgroundColor: '#040f2d', color: 'white',
+                      border: signinHovered ? '1px solid #28a745' : '1px solid #ffffff',
+                      borderRadius: 6, cursor: 'pointer', fontSize: 14, fontWeight: 600,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      opacity: 0, animation: 'flyInFromRight 0.6s ease-out forwards',
+                      animationDelay: '3.5s',
+                      boxShadow: signinHovered ? '0 0 15px #28a745, 0 0 30px rgba(40,167,69,0.4)' : 'none',
+                      transition: 'box-shadow 0.3s ease, border-color 0.3s ease',
+                    }}
+                    onMouseEnter={() => setSigninHovered(true)}
+                    onMouseLeave={() => setSigninHovered(false)}
+                  >
+                    Sign-in
+                  </button>
+                </Link>
                 <div className="flex items-center gap-[17px]">
                   <a href="#" className="transition-transform hover:scale-110" style={{ display: 'flex' }}>
                     <FaLinkedin size={30} color="#939393" style={{ height: 30, width: 'auto' }} />

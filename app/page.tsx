@@ -49,6 +49,7 @@ export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [products, setProducts] = useState<{ name: string; icon: string; description: string; url: string }[]>([]);
   const [hoveredProduct, setHoveredProduct] = useState<number | null>(null);
+  const [signinHovered, setSigninHovered] = useState(false);
   const [features, setFeatures] = useState<{ title: string; icon: string; content: string }[]>([]);
   const [reviews, setReviews] = useState<{ name: string; image: string; role: string; industry: string; text: string; rating: number }[]>([]);
   const [aboutSections, setAboutSections] = useState<{ section_name: string; title: string; content: string }[]>([]);
@@ -583,6 +584,24 @@ export default function Home() {
                   <FaSearch size={16} color="#666" />
                 </button>
               </form>
+              <Link href="/administrator" style={{ textDecoration: 'none' }}>
+                <button
+                  style={{
+                    height: 30, width: 115, backgroundColor: '#040f2d', color: 'white',
+                    border: signinHovered ? '1px solid #28a745' : '1px solid #ffffff',
+                    borderRadius: 6, cursor: 'pointer', fontSize: 14, fontWeight: 600,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    opacity: 0, animation: 'flyInFromRight 0.6s ease-out forwards',
+                    animationDelay: '3.5s',
+                    boxShadow: signinHovered ? '0 0 15px #28a745, 0 0 30px rgba(40,167,69,0.4)' : 'none',
+                    transition: 'box-shadow 0.3s ease, border-color 0.3s ease',
+                  }}
+                  onMouseEnter={() => setSigninHovered(true)}
+                  onMouseLeave={() => setSigninHovered(false)}
+                >
+                  Sign-in
+                </button>
+              </Link>
               <div className="flex items-center gap-[17px] slide-in-left-4s">
                 {socialLinks.map((link) => (
                   <a key={link.platform} href={link.url} target="_blank" rel="noopener noreferrer" className="transition-transform hover:scale-110" style={{ display: 'flex' }}>
