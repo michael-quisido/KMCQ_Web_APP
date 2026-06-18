@@ -113,7 +113,7 @@ export default function PageLayout({ children, title }: { children: React.ReactN
                       border: signinHovered ? '1px solid #28a745' : '1px solid #ffffff',
                       borderRadius: 6, cursor: 'pointer', fontSize: 14, fontWeight: 600,
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      opacity: 0, animation: 'flyInFromRight 0.6s ease-out forwards',
+                      opacity: 0, animation: 'flyInFromLeft 0.6s ease-out forwards',
                       animationDelay: '3.5s',
                       boxShadow: signinHovered ? '0 0 15px #28a745, 0 0 30px rgba(40,167,69,0.4)' : 'none',
                       transition: 'box-shadow 0.3s ease, border-color 0.3s ease',
