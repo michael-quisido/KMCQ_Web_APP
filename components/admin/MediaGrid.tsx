@@ -62,6 +62,12 @@ export default function MediaGrid({ onSelect }: MediaGridProps) {
     loadFiles();
   }
 
+  async function handleDeleteFolder(id: number) {
+    if (!confirm("Delete this folder? Files inside will be uncategorized.")) return;
+    await fetch(`/api/media/folders/${id}`, { method: "DELETE" });
+    loadFiles();
+  }
+
   async function handleNewFolder() {
     if (!newFolderName) return;
     await fetch("/api/media/folders", {
@@ -82,8 +88,11 @@ export default function MediaGrid({ onSelect }: MediaGridProps) {
       </div>
 
       {folders.filter(f => currentFolder ? f.parent_id === currentFolder : !f.parent_id).map(f => (
-        <div key={f.id} onClick={() => setCurrentFolder(f.id)} style={{ cursor: "pointer", padding: 8, background: "#e9ecef", borderRadius: 4, marginBottom: 4, display: "inline-block", marginRight: 8 }}>
-          📁 {f.name}
+        <div key={f.id} style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "#e9ecef", borderRadius: 4, padding: "6px 10px", marginRight: 8, marginBottom: 4 }}>
+          <span onClick={() => setCurrentFolder(f.id)} style={{ cursor: "pointer" }}>
+            📁 {f.name}
+          </span>
+          <button onClick={() => handleDeleteFolder(f.id)} style={{ cursor: "pointer", background: "none", border: "none", color: "red", fontSize: 14, padding: 0, lineHeight: 1 }} title="Delete folder">✕</button>
         </div>
       ))}
 
