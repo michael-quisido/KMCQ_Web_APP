@@ -650,17 +650,19 @@ export default function Home() {
             delay={5160}
           />
         </p>
-        <div className="flex flex-col md:flex-row items-center justify-center gap-4 mt-8 w-full px-4">
-          <Link href="#" style={{ textDecoration: 'none' }}>
+        <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-[125px] mt-12 w-full px-6">
+          <Link href="#" style={{ textDecoration: 'none', width: '100%', maxWidth: 400, display: 'flex' }}>
             <button
               style={{
-                width: 375, height: 120, backgroundColor: '#040f2d', color: 'white',
+                width: '100%', maxWidth: 400, height: 120, backgroundColor: '#040f2d', color: 'white',
                 border: signupHovered ? '1px solid #28a745' : '1px solid #ffffff',
-                borderRadius: 12, cursor: 'pointer', fontSize: 28, fontWeight: 700,
+                borderRadius: 12, cursor: 'pointer', fontSize: 'clamp(22px, 5vw, 28px)', fontWeight: 700,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 boxShadow: signupHovered ? '0 0 20px #28a745, 0 0 40px rgba(40,167,69,0.4)' : 'none',
                 transition: 'box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s ease',
                 transform: signupHovered ? 'scale(1.05)' : 'scale(1)',
+                opacity: 0, animation: 'fadeIn 1s ease-out forwards',
+                animationDelay: '5.5s',
               }}
               onMouseEnter={() => setSignupHovered(true)}
               onMouseLeave={() => setSignupHovered(false)}
@@ -668,16 +670,18 @@ export default function Home() {
               Sign-up
             </button>
           </Link>
-          <Link href="#" style={{ textDecoration: 'none' }}>
+          <Link href="#" style={{ textDecoration: 'none', width: '100%', maxWidth: 400, display: 'flex' }}>
             <button
               style={{
-                width: 375, height: 120, backgroundColor: '#040f2d', color: 'white',
+                width: '100%', maxWidth: 400, height: 120, backgroundColor: '#040f2d', color: 'white',
                 border: signinHeroHovered ? '1px solid #28a745' : '1px solid #ffffff',
-                borderRadius: 12, cursor: 'pointer', fontSize: 28, fontWeight: 700,
+                borderRadius: 12, cursor: 'pointer', fontSize: 'clamp(22px, 5vw, 28px)', fontWeight: 700,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 boxShadow: signinHeroHovered ? '0 0 20px #28a745, 0 0 40px rgba(40,167,69,0.4)' : 'none',
                 transition: 'box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s ease',
                 transform: signinHeroHovered ? 'scale(1.05)' : 'scale(1)',
+                opacity: 0, animation: 'fadeIn 1s ease-out forwards',
+                animationDelay: '5.8s',
               }}
               onMouseEnter={() => setSigninHeroHovered(true)}
               onMouseLeave={() => setSigninHeroHovered(false)}
