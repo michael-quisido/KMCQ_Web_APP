@@ -50,6 +50,8 @@ export default function Home() {
   const [products, setProducts] = useState<{ name: string; icon: string; description: string; url: string }[]>([]);
   const [hoveredProduct, setHoveredProduct] = useState<number | null>(null);
   const [signinHovered, setSigninHovered] = useState(false);
+  const [signupHovered, setSignupHovered] = useState(false);
+  const [signinHeroHovered, setSigninHeroHovered] = useState(false);
   const [features, setFeatures] = useState<{ title: string; icon: string; content: string }[]>([]);
   const [reviews, setReviews] = useState<{ name: string; image: string; role: string; industry: string; text: string; rating: number }[]>([]);
   const [aboutSections, setAboutSections] = useState<{ section_name: string; title: string; content: string }[]>([]);
@@ -648,6 +650,42 @@ export default function Home() {
             delay={5160}
           />
         </p>
+        <div className="flex flex-col md:flex-row items-center justify-center gap-4 mt-8 w-full px-4">
+          <Link href="#" style={{ textDecoration: 'none' }}>
+            <button
+              style={{
+                width: 375, height: 120, backgroundColor: '#040f2d', color: 'white',
+                border: signupHovered ? '1px solid #28a745' : '1px solid #ffffff',
+                borderRadius: 12, cursor: 'pointer', fontSize: 28, fontWeight: 700,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                boxShadow: signupHovered ? '0 0 20px #28a745, 0 0 40px rgba(40,167,69,0.4)' : 'none',
+                transition: 'box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s ease',
+                transform: signupHovered ? 'scale(1.05)' : 'scale(1)',
+              }}
+              onMouseEnter={() => setSignupHovered(true)}
+              onMouseLeave={() => setSignupHovered(false)}
+            >
+              Sign-up
+            </button>
+          </Link>
+          <Link href="#" style={{ textDecoration: 'none' }}>
+            <button
+              style={{
+                width: 375, height: 120, backgroundColor: '#040f2d', color: 'white',
+                border: signinHeroHovered ? '1px solid #28a745' : '1px solid #ffffff',
+                borderRadius: 12, cursor: 'pointer', fontSize: 28, fontWeight: 700,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                boxShadow: signinHeroHovered ? '0 0 20px #28a745, 0 0 40px rgba(40,167,69,0.4)' : 'none',
+                transition: 'box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s ease',
+                transform: signinHeroHovered ? 'scale(1.05)' : 'scale(1)',
+              }}
+              onMouseEnter={() => setSigninHeroHovered(true)}
+              onMouseLeave={() => setSigninHeroHovered(false)}
+            >
+              Sign-in
+            </button>
+          </Link>
+        </div>
       </div>
     </div>
 
