@@ -23,7 +23,7 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 ## To access the adminitrator page 
 (Full CMS backend for the KMCQ GmbH)
 
-http://localhost:3000/adminitrator
+http://localhost:3000/administrator
 
 ## Credentials
 Default credentials:                                                                                                                                                                                  - Email: admin@kmcq.com                                                                                                                                                                                       - Username: admin                                                                                                                                                                                             - Password: admin123
