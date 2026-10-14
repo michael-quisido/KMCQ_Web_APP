@@ -26,7 +26,7 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 http://localhost:3000/administrator
 
 ## Credentials
-<br> Default credentials:  <br>                                                                                                                                                                              <br> - Email: admin@kmcq.com                                                                                                                                                                                      <br> - Username: admin                                                                                                                                                                                            <br> - Password: admin123
+Default credentials:  <br>                                                                                                                                                                              <br> - Email: admin@kmcq.com                                                                                                                                                                                      <br> - Username: admin                                                                                                                                                                                            <br> - Password: admin123
 
 ## Learn More
 
